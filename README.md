@@ -11,12 +11,6 @@ A Minecraft Mod that enables the user to perfectly place ice boats, by snapping 
 
 ---
 
-## Images
-
-![In-game HUD Example](images/ingame_hud.png)
-
----
-
 ## Installation
 
 - Install [Fabric Loader](https://fabricmc.net/use/) on your Minecraft client
