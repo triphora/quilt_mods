@@ -1,4 +1,4 @@
-# Critical Orientation (Minecraft 1.15.x)
+# Critical Orientation (Minecraft 1.16.x)
 
 Available to download from [Curseforge](https://www.curseforge.com/minecraft/mc-mods/critical-orientation).
 

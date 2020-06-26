@@ -2,6 +2,7 @@ package net.critical.orientation;
 
 import net.fabricmc.fabric.api.client.keybinding.FabricKeyBinding;
 import net.fabricmc.fabric.api.client.keybinding.KeyBindingRegistry;
+import net.minecraft.entity.player.PlayerEntity;
 import org.lwjgl.glfw.GLFW;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.Identifier;
@@ -42,7 +43,7 @@ public class MyKeyBind {
 
                     yaw = roundYaw(normalizeHeadYaw(yaw));
 
-                    e.player.setPositionAndAngles(e.player.getX(), e.player.getY(), e.player.getZ(), (float)yaw, e.player.getPitch(0));
+                    e.player.refreshPositionAndAngles(e.player.getX(), e.player.getY(), e.player.getZ(), (float)yaw, e.player.getPitch(0));
                     }
         });
 
