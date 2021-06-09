@@ -1,3 +1,5 @@
 {
-  "key.toggle.orientation": "Critical Orientation Snap to direction"
+  "key.categories.orientation": "Critical Orientation",
+  "key.orientation.align": "Snap to direction",
+  "msg.orientation.align": "Aligned your direction!"
 }

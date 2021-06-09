@@ -2,35 +2,26 @@
   "schemaVersion": 1,
   "id": "orientation",
   "version": "${version}",
-
   "name": "Critical Orientation",
   "description": "Snaps player direction to cardinal directions",
   "authors": [
+    "wafflecoffee",
     "TheCritic"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://fabricmc.net/"
+    "sources": "https://github.com/wafflecoffee/critical-orientation",
+    "issues": "https://github.com/wafflecoffee/critical-orientation/issues"
   },
-
-  "license": "CC0-1.0",
-  "icon": "assets/modid/cardinal_directions.png",
-
-  "environment": "*",
+  "license": "MIT",
+  "icon": "assets/orientation/icon.png",
+  "environment": "client",
   "entrypoints": {
-    "main": [
-      "net.critical.orientation.Orientation"
+    "client": [
+      "coffee.waffle.orientation.Orientation"
     ]
   },
-  "mixins": [
-  ],
-
   "depends": {
-    "fabricloader": ">=0.7.2",
     "fabric": "*",
-    "minecraft": "1.16.x"
-  },
-  "suggests": {
-    "flamingo": "*"
+    "minecraft": "1.17.x"
   }
 }
