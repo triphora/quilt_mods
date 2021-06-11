@@ -67,7 +67,7 @@ public class Orientation implements ClientModInitializer {
     final String category = "key.categories.orientation";
     alignPlayer = new KeyBinding("key.orientation.align", GLFW_KEY_BACKSLASH, category);
     KeyBindingHelper.registerKeyBinding(alignPlayer);
-    ClientTickEvents.END_CLIENT_TICK.register(e -> execute());
+    this.execute();
     ClientCommandManager.DISPATCHER.register(
             ClientCommandManager.literal("align").executes(c -> {
               this.execute();
