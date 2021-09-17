@@ -18,7 +18,7 @@ String fabric_version = "0.40.1"  // https://fabricmc.net/versions.html
 String modmenu_version = "2.0.10" // https://modrinth.com/mod/modmenu/versions
 
 archivesBaseName = "critical-orientation"
-version = mc_version + "-" + mod_version
+version = mod_version + "+" + mc_version
 
 repositories {
   maven {
