@@ -43,7 +43,7 @@ jar { from("LICENSE") }
 task modrinth(type: com.modrinth.minotaur.TaskModrinthUpload) {
   onlyIf { System.getenv().MODRINTH_TOKEN }
   token = System.getenv().MODRINTH_TOKEN
-  projectId = "QYTT62S0"
+  projectId = "AFqV4ew3"
   versionType = "BETA"
   versionNumber = mod_version
   versionName = release_title
