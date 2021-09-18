@@ -6,7 +6,7 @@ plugins {
   id "io.github.juuxel.loom-quiltflower" version "1.3.+"
 }
 
-String mod_version = new groovy.json.JsonSlurper().parse(file('src/main/resources/fabric.mod.json')).version
+String mod_version = loom.modVersion
 String release_title = null
 String changeLog = null
 
@@ -15,7 +15,7 @@ String mc_version_major = "1.18"
 String yarn_mappings = "5"        // https://fabricmc.net/versions.html
 String loader_version = "0.11.7"  // https://fabricmc.net/versions.html
 String fabric_version = "0.40.1"  // https://fabricmc.net/versions.html
-String modmenu_version = "2.0.10" // https://modrinth.com/mod/modmenu/versions
+String modmenu_version = "2.0.11" // https://modrinth.com/mod/modmenu/versions
 
 archivesBaseName = "critical-orientation"
 version = mod_version + "+" + mc_version

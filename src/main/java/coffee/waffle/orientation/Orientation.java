@@ -1,3 +1,26 @@
+/*
+ * Copyright (c) 2020 Bert Shuler
+ * Copyright (c) 2021 wafflecoffee
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package coffee.waffle.orientation;
 
 import net.fabricmc.api.ClientModInitializer;
@@ -18,46 +41,23 @@ public class Orientation implements ClientModInitializer {
     yaw = yaw % 360;
     if (yaw > 180 || yaw < -180) {
       double mod = yaw % 180;
-      if (mod > 0) {
-        yaw = -180 + mod;
-      } else if (mod < 0) {
-        yaw = 180 + mod;
-      }
+      if (mod > 0) yaw = -180 + mod;
+      else if (mod < 0) yaw = 180 + mod;
     }
     return yaw;
   }
 
   public static double roundYaw(double yaw) {
-    if (yaw >= 0 && yaw < 22.5) {
-      yaw = 0;
-    }
-    if (yaw >= 22.5 && yaw < 67.5) {
-      yaw = 45;
-    }
-    if (yaw >= 67.5 && yaw < 112.5) {
-      yaw = 90;
-    }
-    if (yaw >= 112.5 && yaw < 157.5) {
-      yaw = 135;
-    }
-    if (yaw >= 157.5 && yaw <= 180) {
-      yaw = 180;
-    }
-    if (yaw <= 0 && yaw > -22.5) {
-      yaw = 0;
-    }
-    if (yaw <= -22.5 && yaw > -67.5) {
-      yaw = -45;
-    }
-    if (yaw <= -67.5 && yaw > -112.5) {
-      yaw = -90;
-    }
-    if (yaw <= -112.5 && yaw > -157.5) {
-      yaw = -135;
-    }
-    if (yaw <= -157.5 && yaw >= -180) {
-      yaw = 180;
-    }
+    if (yaw >= 0 && yaw < 22.5) yaw = 0;
+    if (yaw >= 22.5 && yaw < 67.5) yaw = 45;
+    if (yaw >= 67.5 && yaw < 112.5) yaw = 90;
+    if (yaw >= 112.5 && yaw < 157.5) yaw = 135;
+    if (yaw >= 157.5 && yaw <= 180) yaw = 180;
+    if (yaw <= 0 && yaw > -22.5) yaw = 0;
+    if (yaw <= -22.5 && yaw > -67.5) yaw = -45;
+    if (yaw <= -67.5 && yaw > -112.5) yaw = -90;
+    if (yaw <= -112.5 && yaw > -157.5) yaw = -135;
+    if (yaw <= -157.5 && yaw >= -180) yaw = 180;
 
     return yaw;
   }
@@ -93,7 +93,8 @@ public class Orientation implements ClientModInitializer {
 
         yaw = roundYaw(normalizeHeadYaw(yaw));
 
-        e.player.refreshPositionAndAngles(e.player.getX(), e.player.getY(), e.player.getZ(), (float) yaw, e.player.getPitch(0));
+        e.player.refreshPositionAndAngles(e.player.getX(), e.player.getY(), e.player.getZ(), (float) yaw,
+                e.player.getPitch(0));
       }
     });
   }
