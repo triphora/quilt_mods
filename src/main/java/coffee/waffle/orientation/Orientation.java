@@ -31,23 +31,23 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.TranslatableText;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
 
+import static java.util.Objects.requireNonNull;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_BACKSLASH;
 
 public class Orientation implements ClientModInitializer {
-  public static KeyBinding alignPlayer;
+  private static KeyBinding alignPlayer;
 
-  public static double normalizeHeadYaw(double yaw) {
+  private static double roundYaw(double yaw) {
     yaw = yaw % 360;
     if (yaw > 180 || yaw < -180) {
       double mod = yaw % 180;
       if (mod > 0) yaw = -180 + mod;
       else if (mod < 0) yaw = 180 + mod;
     }
-    return yaw;
-  }
 
-  public static double roundYaw(double yaw) {
     if (yaw >= 0 && yaw < 22.5) yaw = 0;
     if (yaw >= 22.5 && yaw < 67.5) yaw = 45;
     if (yaw >= 67.5 && yaw < 112.5) yaw = 90;
@@ -67,35 +67,34 @@ public class Orientation implements ClientModInitializer {
     final String category = "key.categories.orientation";
     alignPlayer = new KeyBinding("key.orientation.align", GLFW_KEY_BACKSLASH, category);
     KeyBindingHelper.registerKeyBinding(alignPlayer);
-    this.execute();
+    checkBeforeAlign();
+
     ClientCommandManager.DISPATCHER.register(
             ClientCommandManager.literal("align").executes(c -> {
-              this.execute();
+              this.align();
               return 1;
             })
     );
   }
 
-  public void execute() {
-    ClientTickEvents.END_CLIENT_TICK.register(e ->
-    {
-      if (alignPlayer.wasPressed()) {
-        ClientPlayerEntity player = MinecraftClient.getInstance().player;
+  private void align() {
+    ClientPlayerEntity player = requireNonNull(MinecraftClient.getInstance().player);
 
-        assert player != null;
-        player.sendMessage(new TranslatableText("msg.orientation.align"), true);
+    player.sendMessage(new TranslatableText("msg.orientation.align"), true);
 
-        assert e.player != null;
-        double yaw = e.player.getHeadYaw();
+    double yaw = player.getHeadYaw();
 
-        System.out.printf("Yaw %s adjusts to %s which rounds to %s%n", yaw, normalizeHeadYaw(yaw),
-                roundYaw(normalizeHeadYaw(yaw)));
+    LogManager.getLogger("orientation")
+            .printf(Level.DEBUG, "Yaw %s rounds to %s%n", yaw, roundYaw(yaw));
 
-        yaw = roundYaw(normalizeHeadYaw(yaw));
+    yaw = roundYaw(yaw);
 
-        e.player.refreshPositionAndAngles(e.player.getX(), e.player.getY(), e.player.getZ(), (float) yaw,
-                e.player.getPitch(0));
-      }
+    player.refreshPositionAndAngles(player.getX(), player.getY(), player.getZ(), (float) yaw, player.getPitch(0));
+  }
+
+  private void checkBeforeAlign() {
+    ClientTickEvents.END_CLIENT_TICK.register(e -> {
+      if (alignPlayer.wasPressed()) { align(); }
     });
   }
 }

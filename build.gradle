@@ -14,8 +14,8 @@ String mc_version = "21w37a"
 String mc_version_major = "1.18"
 String yarn_mappings = "5"        // https://fabricmc.net/versions.html
 String loader_version = "0.11.7"  // https://fabricmc.net/versions.html
-String fabric_version = "0.40.1"  // https://fabricmc.net/versions.html
-String modmenu_version = "2.0.11" // https://modrinth.com/mod/modmenu/versions
+String fabric_version = "0.40.3"  // https://fabricmc.net/versions.html
+String modmenu_version = "2.1.0"  // https://modrinth.com/mod/modmenu/versions
 
 archivesBaseName = "critical-orientation"
 version = mod_version + "+" + mc_version
@@ -27,11 +27,19 @@ repositories {
   }
 }
 
+Set<String> apiModules = [
+        "api-base",
+        "lifecycle-events-v1",
+        "resource-loader-v0",
+        "key-binding-api-v1",
+        "command-api-v1"
+]
+
 dependencies {
   minecraft "com.mojang:minecraft:${mc_version}"
   mappings "net.fabricmc:yarn:${mc_version}+build.${yarn_mappings}:v2"
   modImplementation "net.fabricmc:fabric-loader:${loader_version}"
-  modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}+1.17" //+${mc_version_major}"
+  apiModules.forEach { modImplementation(fabricApi.module("fabric-$it", "${fabric_version}+${mc_version_major}")) }
 
   modImplementation "com.terraformersmc:modmenu:${modmenu_version}"
 }

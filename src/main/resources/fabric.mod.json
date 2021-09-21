@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "orientation",
-  "version": "2.0.1-SNAPSHOT",
+  "version": "2.0.2",
   "name": "Critical Orientation",
   "description": "Snaps player direction to cardinal directions",
   "authors": [
@@ -22,6 +22,7 @@
   },
   "depends": {
     "fabric-api-base": "*",
+    "fabric-resource-loader-v0": "*",
     "fabric-command-api-v1": "*",
     "fabric-lifecycle-events-v1": "*",
     "fabric-key-binding-api-v1": "*",
