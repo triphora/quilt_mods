@@ -51,6 +51,8 @@ task modrinth(type: com.modrinth.minotaur.TaskModrinthUpload) {
   versionNumber = version
   versionType = "RELEASE"
   uploadFile = remapJar
-  for (String in supported_mc_versions) addGameVersion it as String
+  supported_mc_versions.each {
+    String gameVersion -> addGameVersion gameVersion
+  }
   addLoader "fabric"
 }
