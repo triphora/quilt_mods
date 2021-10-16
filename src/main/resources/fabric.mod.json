@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "clean-logs",
+  "version": "1.0.0",
+  "name": "Clean Logs",
+  "description": "Filters out messages in the console/log by user-defined filters.",
+  "authors": [
+    "Bravarly",
+    "Emmaffle"
+  ],
+  "contact": {
+    "website": "https://modrinth.com/mod/clean-logs",
+    "issues": "https://github.com/wafflecoffee/clean-logs/issues",
+    "sources": "https://github.com/wafflecoffee/clean-logs"
+  },
+  "license": "LGPL-3.0-or-later",
+  "icon": "assets/clean-logs/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "preLaunch": [
+      "coffee.waffle.cleanlogs.CleanLogs"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.12.2"
+  }
+}
