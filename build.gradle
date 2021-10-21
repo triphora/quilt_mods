@@ -1,21 +1,22 @@
 //file:noinspection UnnecessaryQualifiedReference
+//file:noinspection GroovyAssignabilityCheck
 plugins {
   id "fabric-loom" version "0.10.+"
   id "com.modrinth.minotaur" version "1.2.+"
   id "org.cadixdev.licenser" version "0.6.+"
-  id "io.github.juuxel.loom-quiltflower" version "1.3.+"
+  id "maven-publish"
 }
 
 String mod_version = loom.modVersion
-String release_title = "Code refactor & working update to 1.18"
+String release_title = null
 String changeLog = null
 
-String mc_version = "21w37a"
+String mc_version = "21w42a"
 String mc_version_major = "1.18"
-String yarn_mappings = "13"       // https://fabricmc.net/versions.html
-String loader_version = "0.11.7"  // https://fabricmc.net/versions.html
-String fabric_version = "0.40.3"  // https://fabricmc.net/versions.html
-String modmenu_version = "2.1.0"  // https://modrinth.com/mod/modmenu/versions
+String yarn_mappings = "1"        // https://fabricmc.net/versions.html
+String loader_version = "0.12.2"  // https://fabricmc.net/versions.html
+String fabric_version = "0.41.1"  // https://fabricmc.net/versions.html
+String modmenu_version = "3.0.0"  // https://modrinth.com/mod/modmenu/versions
 
 archivesBaseName = "critical-orientation"
 version = mod_version + "+" + mc_version
@@ -58,4 +59,38 @@ task modrinth(type: com.modrinth.minotaur.TaskModrinthUpload) {
   changelog = changeLog
   uploadFile = file("${project.buildDir}/libs/${archivesBaseName}-${version}.jar")
   addGameVersion(mc_version)
+}
+
+java { withSourcesJar() }
+
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      groupId = 'coffee.waffle'
+      artifactId = archivesBaseName
+      version = version
+      artifact(remapJar) { builtBy remapJar }
+      artifact(sourcesJar) { builtBy remapSourcesJar }
+    }
+  }
+  repositories {
+    maven {
+      name = "emmavenReleases"
+      url = "https://maven.waffle.coffee/releases"
+      credentials {
+        username = System.getenv().MAVEN_USER
+        password = System.getenv().MAVEN_PASS
+      }
+      authentication { basic(BasicAuthentication) }
+    }
+    maven {
+      name = "emmavenSnapshots"
+      url = "https://maven.waffle.coffee/snapshots"
+      credentials {
+        username = System.getenv().MAVEN_USER
+        password = System.getenv().MAVEN_PASS
+      }
+      authentication { basic(BasicAuthentication) }
+    }
+  }
 }
