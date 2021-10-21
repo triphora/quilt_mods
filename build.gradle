@@ -7,6 +7,7 @@ plugins {
   id "maven-publish"
 }
 
+boolean is_release = false
 String mod_version = loom.modVersion
 String release_title = null
 String changeLog = null
@@ -19,7 +20,7 @@ String fabric_version = "0.41.1"  // https://fabricmc.net/versions.html
 String modmenu_version = "3.0.0"  // https://modrinth.com/mod/modmenu/versions
 
 archivesBaseName = "critical-orientation"
-version = mod_version + "+" + mc_version
+version = mod_version + "+" + mc_version + (!is_release ? "-SNAPSHOT" : "")
 
 repositories {
   maven {
