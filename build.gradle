@@ -1,21 +1,24 @@
 //file:noinspection UnnecessaryQualifiedReference
+//file:noinspection GroovyAssignabilityCheck
 plugins {
   id "fabric-loom" version "0.10.+"
   id "com.modrinth.minotaur" version "1.2.+"
   id "org.cadixdev.licenser" version "0.6.+"
+  id "maven-publish"
 }
+
+String version_name = "Remove config migration (it was broken)"
 
 String minecraft_version = "1.17.1"   // https://fabricmc.net/versions.html
 String yarn_mappings = "61"           // https://fabricmc.net/versions.html
 String loader_version = "0.12.2"      // https://fabricmc.net/versions.html
-String fabric_version = "0.40.8+1.17" // https://fabricmc.net/versions.html
+String fabric_version = "0.41.0+1.17" // https://fabricmc.net/versions.html
 String modmenu_version = "2.0.14"     // https://modrinth.com/mod/modmenu/versions
 
 archivesBaseName = "clean-logs"
-version = loom.modVersion
+version = loom.modVersion + System.getenv().SNAPSHOT
 
 repositories {
-  maven { url "https://maven.quiltmc.org/repository/release/" }
   maven { url "https://maven.terraformersmc.com" }
 }
 
@@ -51,8 +54,43 @@ task modrinth(type: com.modrinth.minotaur.TaskModrinthUpload) {
   versionNumber = version
   versionType = "RELEASE"
   uploadFile = remapJar
+  versionName = version_name
   supported_mc_versions.each {
     String gameVersion -> addGameVersion gameVersion
   }
   addLoader "fabric"
+}
+
+java { withSourcesJar() }
+
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      groupId = 'coffee.waffle'
+      artifactId = archivesBaseName
+      version = version
+      artifact(remapJar) { builtBy remapJar }
+      artifact(sourcesJar) { builtBy remapSourcesJar }
+    }
+  }
+  repositories {
+    maven {
+      name = "emmavenReleases"
+      url = "https://maven.waffle.coffee/releases"
+      credentials {
+        username = System.getenv().MAVEN_USER
+        password = System.getenv().MAVEN_PASS
+      }
+      authentication { basic(BasicAuthentication) }
+    }
+    maven {
+      name = "emmavenSnapshots"
+      url = "https://maven.waffle.coffee/snapshots"
+      credentials {
+        username = System.getenv().MAVEN_USER
+        password = System.getenv().MAVEN_PASS
+      }
+      authentication { basic(BasicAuthentication) }
+    }
+  }
 }

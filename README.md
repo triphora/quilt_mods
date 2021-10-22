@@ -6,6 +6,4 @@ This mod will filter out logging based on user-defined options, either by a phra
 
 This code is based upon that of [Shut Up Console](https://curseforge.com/projects/396776). While the mod works on 1.17+ (as does Clean Logs), I wanted to add a new feature. Also, it had seemed to be abandoned, with the source URL being simply gone. Thus, here's Clean Logs!
 
-The added feature is the ability to turn off printing the lines in the log to filter out. This was my one complaint with Shut Up Console; it filters out the specified lines, but at the same time, it prints out the line to be filtered out. :/
-
-There's a new config option to disable this printing (it's still enabled by default, though). The config will automatically be migrated over if there's already a Shut Up Console config.
+The added feature is the ability to turn off printing the lines in the log to filter out. This was my one complaint with Shut Up Console; it filters out the specified lines, but at the same time, it prints out the line to be filtered out. There's a new config option to disable this printing (it's still enabled by default, though).

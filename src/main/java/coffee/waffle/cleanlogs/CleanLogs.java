@@ -96,16 +96,10 @@ public class CleanLogs implements PreLaunchEntrypoint {
     File oldConfig = new File(FabricLoader.getInstance().getConfigDir() + "/shutupconsole.toml");
     File config = new File(FabricLoader.getInstance().getConfigDir() + "/clean-logs.toml");
     if (oldConfig.exists()) {
-      try {
-        //noinspection ResultOfMethodCallIgnored
-        oldConfig.renameTo(config);
-        LOGGER.info("THIS MESSAGE WILL ONLY BE PRINTED ONCE -- READ ME");
-        LOGGER.info("The Shut Up Console config has been successfully renamed to Clean Logs.");
-        LOGGER.info("If you want to utilise the new printOnStart feature, add the following line to clean-logs.toml:");
-        LOGGER.info("`printOnStart = false`");
-      } catch (SecurityException | NullPointerException e) {
-        LOGGER.error("An error occurred while trying to move the Shut Up Console config to Clean Logs", e);
-      }
+      LOGGER.info("You still have an old Shut Up Console config!");
+      LOGGER.info("Please rename it to `clean-logs.toml` and replace `[shutupconsole]` with `[clean-logs]`.");
+      LOGGER.info("If you want to utilise the new printOnStart feature, also add the following line to clean-logs.toml under the [clean-logs] heading:");
+      LOGGER.info("`printOnStart = false`");
     }
 
     if (!config.exists()) {
