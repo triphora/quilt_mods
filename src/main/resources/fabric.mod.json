@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "clean-logs",
-  "version": "1.0.1",
+  "version": "${version}",
   "name": "Clean Logs",
   "description": "Filters out messages in the console/log by user-defined filters.",
   "authors": [
@@ -20,8 +20,5 @@
     "preLaunch": [
       "coffee.waffle.cleanlogs.CleanLogs"
     ]
-  },
-  "depends": {
-    "fabricloader": ">=0.12.2"
   }
 }

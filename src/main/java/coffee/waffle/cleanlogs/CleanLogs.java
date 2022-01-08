@@ -42,8 +42,12 @@ public class CleanLogs implements PreLaunchEntrypoint {
   @Override
   public void onPreLaunch() {
     boolean shouldPrintOnStart = CONFIG.getBoolean(MODID + ".printOnStart");
+    boolean shouldPrintSingleLine = CONFIG.getBoolean(MODID + ".printInitLineOnStart");
 
     List<String> phraseFilter = CONFIG.getList(MODID + ".phrases");
+
+    if (shouldPrintSingleLine) LOGGER.info("=== Clean Logs will filter from this point on. ===");
+
     if (shouldPrintOnStart && !phraseFilter.isEmpty()) {
       LOGGER.info("=== Messages containing the following phrases will be filtered out: ===");
       for (String entry : phraseFilter) LOGGER.info(entry);

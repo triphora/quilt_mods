@@ -1,40 +1,43 @@
 //file:noinspection UnnecessaryQualifiedReference
 //file:noinspection GroovyAssignabilityCheck
 plugins {
-  id "fabric-loom" version "0.10.+"
+  id "com.github.johnrengelman.shadow" version "7.+"
   id "com.modrinth.minotaur" version "1.2.+"
   id "org.cadixdev.licenser" version "0.6.+"
+  id "java"
   id "maven-publish"
 }
 
 String version_name = "Remove config migration (it was broken)"
 
-String minecraft_version = "1.17.1"   // https://fabricmc.net/versions.html
-String yarn_mappings = "61"           // https://fabricmc.net/versions.html
-String loader_version = "0.12.2"      // https://fabricmc.net/versions.html
-String fabric_version = "0.41.0+1.17" // https://fabricmc.net/versions.html
-String modmenu_version = "2.0.14"     // https://modrinth.com/mod/modmenu/versions
-
 archivesBaseName = "clean-logs"
-version = loom.modVersion + System.getenv().SNAPSHOT
+version = "1.1.0" + System.getenv().SNAPSHOT
+group = "coffee.waffle"
 
 repositories {
-  maven { url "https://maven.terraformersmc.com" }
+  mavenCentral()
+  maven { url = "https://maven.fabricmc.net/" }
 }
 
 dependencies {
-  minecraft "com.mojang:minecraft:${minecraft_version}"
-  mappings "net.fabricmc:yarn:${minecraft_version}+build.${yarn_mappings}:v2"
-  modImplementation "net.fabricmc:fabric-loader:${loader_version}"
-  modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
-
-  modImplementation "com.terraformersmc:modmenu:${modmenu_version}"
-
-  implementation include('com.moandjiezana.toml:toml4j:0.7.2')
+  compileOnly "net.fabricmc:fabric-loader:0.12.12"
+  implementation shadow("com.moandjiezana.toml:toml4j:0.7.+") { transitive = false }
+  compileOnly "org.apache.logging.log4j:log4j-core:2.17.+"
+  compileOnly 'org.jetbrains:annotations:22.+'
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
   it.options.encoding = "UTF-8"
+  //noinspection all
+  it.options.release = 8
+}
+
+processResources {
+  inputs.property "version", project.version
+
+  filesMatching("fabric.mod.json") {
+    expand "version": project.version
+  }
 }
 
 jar {
@@ -45,7 +48,7 @@ license {
   header = rootProject.file('HEADER')
 }
 
-Set<String> supported_mc_versions = [ "1.17.1", "1.16.5", "1.16.1", "1.15.2", "1.14.4" ]
+Set<String> supported_mc_versions = [ "1.18.1", "1.17.1", "1.16.5", "1.16.1", "1.15.2", "1.14.4" ]
 
 task modrinth(type: com.modrinth.minotaur.TaskModrinthUpload) {
   onlyIf { System.getenv("MODRINTH") }
@@ -53,7 +56,7 @@ task modrinth(type: com.modrinth.minotaur.TaskModrinthUpload) {
   projectId = "OTteoJUk"
   versionNumber = version
   versionType = "RELEASE"
-  uploadFile = remapJar
+  uploadFile = shadowJar
   versionName = version_name
   supported_mc_versions.each {
     String gameVersion -> addGameVersion gameVersion
@@ -66,26 +69,12 @@ java { withSourcesJar() }
 publishing {
   publications {
     mavenJava(MavenPublication) {
-      groupId = 'coffee.waffle'
-      artifactId = archivesBaseName
-      version = version
-      artifact(remapJar) { builtBy remapJar }
-      artifact(sourcesJar) { builtBy remapSourcesJar }
+      from components.java
     }
   }
   repositories {
     maven {
-      name = "emmavenReleases"
-      url = "https://maven.waffle.coffee/releases"
-      credentials {
-        username = System.getenv().MAVEN_USER
-        password = System.getenv().MAVEN_PASS
-      }
-      authentication { basic(BasicAuthentication) }
-    }
-    maven {
-      name = "emmavenSnapshots"
-      url = "https://maven.waffle.coffee/snapshots"
+      url = System.getenv().MAVEN_URL
       credentials {
         username = System.getenv().MAVEN_USER
         password = System.getenv().MAVEN_PASS
