@@ -23,6 +23,8 @@
 
 package coffee.waffle.orientation;
 
+import com.mojang.brigadier.arguments.FloatArgumentType;
+import eu.midnightdust.lib.config.MidnightConfig;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -34,11 +36,12 @@ import net.minecraft.text.TranslatableText;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
-import static java.util.Objects.requireNonNull;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_BACKSLASH;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_J;
 
 public class Orientation implements ClientModInitializer {
   private static KeyBinding alignPlayer;
+  private static KeyBinding alignPlayerConfigurable;
 
   private static double roundYaw(double yaw) {
     yaw = yaw % 360;
@@ -64,13 +67,26 @@ public class Orientation implements ClientModInitializer {
 
   @Override
   public void onInitializeClient() {
+    MidnightConfig.init("orientation", Config.class);
+
     final String category = "key.categories.orientation";
     alignPlayer = new KeyBinding("key.orientation.align", GLFW_KEY_BACKSLASH, category);
+    alignPlayerConfigurable = new KeyBinding("key.orientation.align-configurable", GLFW_KEY_J, category);
     KeyBindingHelper.registerKeyBinding(alignPlayer);
-    checkBeforeAlign();
+    KeyBindingHelper.registerKeyBinding(alignPlayerConfigurable);
+
+    ClientTickEvents.END_CLIENT_TICK.register(e -> {
+      if (alignPlayer.wasPressed()) align();
+      if (alignPlayerConfigurable.wasPressed()) setPlayerYaw(Config.customAlignment);
+    });
 
     ClientCommandManager.DISPATCHER.register(
-            ClientCommandManager.literal("align").executes(c -> {
+            ClientCommandManager.literal("align")
+                    .then(ClientCommandManager.argument("yaw", FloatArgumentType.floatArg(-180, 180)).executes(c -> {
+                      setPlayerYaw(FloatArgumentType.getFloat(c, "yaw"));
+                      return 1;
+                    }))
+                    .executes(c -> {
               this.align();
               return 1;
             })
@@ -78,23 +94,28 @@ public class Orientation implements ClientModInitializer {
   }
 
   private void align() {
-    ClientPlayerEntity player = requireNonNull(MinecraftClient.getInstance().player);
+    final ClientPlayerEntity player = MinecraftClient.getInstance().player;
 
-    player.sendMessage(new TranslatableText("msg.orientation.align"), true);
-
-    double yaw = player.getHeadYaw();
+    //noinspection ConstantConditions
+    final double oldYaw = player.getHeadYaw();
+    final double newYaw = roundYaw(oldYaw);
 
     LogManager.getLogger("orientation")
-            .printf(Level.DEBUG, "Yaw %s rounds to %s%n", yaw, roundYaw(yaw));
+            .printf(Level.DEBUG, "Yaw %s rounds to %s%n", oldYaw, newYaw);
 
-    yaw = roundYaw(yaw);
-
-    player.refreshPositionAndAngles(player.getX(), player.getY(), player.getZ(), (float) yaw, player.getPitch(0));
+    setPlayerYaw(newYaw);
   }
 
-  private void checkBeforeAlign() {
-    ClientTickEvents.END_CLIENT_TICK.register(e -> {
-      if (alignPlayer.wasPressed()) { align(); }
-    });
+  private void setPlayerYaw(double yaw) {
+    final ClientPlayerEntity player = MinecraftClient.getInstance().player;
+
+    //noinspection ConstantConditions
+    player.refreshPositionAndAngles(player.getX(), player.getY(), player.getZ(), (float) yaw, player.getPitch(0));
+    player.sendMessage(new TranslatableText("msg.orientation.align", yaw), true);
+  }
+
+  public static class Config extends MidnightConfig {
+    @Comment public static Comment comment;
+    @Entry(min = 0, max = 360) public static double customAlignment;
   }
 }

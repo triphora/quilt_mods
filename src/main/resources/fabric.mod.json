@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "orientation",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "name": "Critical Orientation",
   "description": "Snaps player direction to cardinal directions",
   "authors": [
@@ -26,6 +26,7 @@
     "fabric-command-api-v1": "*",
     "fabric-lifecycle-events-v1": "*",
     "fabric-key-binding-api-v1": "*",
+    "midnightlib": ">=0.3.1",
     "minecraft": ">=1.18-alpha.21.37.a"
   }
 }

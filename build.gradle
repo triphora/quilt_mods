@@ -12,22 +12,30 @@ String mod_version = loom.modVersion
 String release_title = null
 String changeLog = null
 
-String mc_version = "21w42a"
+String mc_version = "1.18.1"
 String mc_version_major = "1.18"
-String yarn_mappings = "1"        // https://fabricmc.net/versions.html
-String loader_version = "0.12.2"  // https://fabricmc.net/versions.html
-String fabric_version = "0.41.1"  // https://fabricmc.net/versions.html
+String yarn_mappings = "22"       // https://fabricmc.net/develop
+String loader_version = "0.12.12" // https://fabricmc.net/develop
+String fabric_version = "0.46.2"  // https://fabricmc.net/develop
 String modmenu_version = "3.0.0"  // https://modrinth.com/mod/modmenu/versions
+String midnight_version = "0.3.1" // https://modrinth.com/mod/midnightlib/versions
 
 archivesBaseName = "critical-orientation"
 version = mod_version + "+" + mc_version + (!is_release ? "-SNAPSHOT" : "")
+group = "coffee.waffle"
 
 repositories {
   maven {
     url "https://maven.terraformersmc.com"
     content { includeGroup "com.terraformersmc" }
   }
+  maven {
+    url "https://api.modrinth.com/maven"
+    content { includeGroup "maven.modrinth" }
+  }
 }
+
+idea { module { downloadJavadoc = false } }
 
 Set<String> apiModules = [
         "api-base",
@@ -42,8 +50,10 @@ dependencies {
   mappings "net.fabricmc:yarn:${mc_version}+build.${yarn_mappings}:v2"
   modImplementation "net.fabricmc:fabric-loader:${loader_version}"
   apiModules.forEach { modImplementation(fabricApi.module("fabric-$it", "${fabric_version}+${mc_version_major}")) }
+  modRuntimeOnly(fabricApi.module("fabric-renderer-registries-v1", "${fabric_version}+${mc_version_major}"))
 
   modImplementation "com.terraformersmc:modmenu:${modmenu_version}"
+  modImplementation include("maven.modrinth:midnightlib:${midnight_version}")
 }
 
 tasks.withType(JavaCompile) { it.options.encoding = "UTF-8" }
@@ -58,7 +68,7 @@ task modrinth(type: com.modrinth.minotaur.TaskModrinthUpload) {
   versionNumber = mod_version
   versionName = release_title
   changelog = changeLog
-  uploadFile = file("${project.buildDir}/libs/${archivesBaseName}-${version}.jar")
+  uploadFile = remapJar
   addGameVersion(mc_version)
 }
 
@@ -67,26 +77,12 @@ java { withSourcesJar() }
 publishing {
   publications {
     mavenJava(MavenPublication) {
-      groupId = 'coffee.waffle'
-      artifactId = archivesBaseName
-      version = version
-      artifact(remapJar) { builtBy remapJar }
-      artifact(sourcesJar) { builtBy remapSourcesJar }
+      from components.java
     }
   }
   repositories {
     maven {
-      name = "emmavenReleases"
-      url = "https://maven.waffle.coffee/releases"
-      credentials {
-        username = System.getenv().MAVEN_USER
-        password = System.getenv().MAVEN_PASS
-      }
-      authentication { basic(BasicAuthentication) }
-    }
-    maven {
-      name = "emmavenSnapshots"
-      url = "https://maven.waffle.coffee/snapshots"
+      url = System.getenv().MAVEN_URL
       credentials {
         username = System.getenv().MAVEN_USER
         password = System.getenv().MAVEN_PASS

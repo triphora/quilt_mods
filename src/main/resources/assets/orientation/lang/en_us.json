@@ -1,5 +1,8 @@
 {
   "key.categories.orientation": "Critical Orientation",
   "key.orientation.align": "Snap to direction",
-  "msg.orientation.align": "Aligned your direction!"
+  "key.orientation.align-configurable": "Snap to configurable direction",
+  "msg.orientation.align": "Aligned your direction to %s!",
+  "orientation.midnightconfig.comment": "To use negative values, take the absolute value and subtract that from 360. For example, -160 becomes 200.",
+  "orientation.midnightconfig.customAlignment": "Configurable direction value"
 }
