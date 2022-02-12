@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "repeat-no-more",
+  "version": "1.0.0",
+
+  "name": "Repeat No More",
+  "description": "Make it so that you can't tick a repeater no mo' once it reaches full delay",
+  "authors": [
+    "Emmaffle"
+  ],
+  "contact": {
+    "homepage": "https://modrinth.com/mod/repeat-no-more",
+    "sources": "https://github.com/wafflecoffee/repeat-no-more"
+  },
+
+  "license": "Apache-2.0",
+  "icon": "assets/repeat-no-more/icon.png",
+
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "coffee.waffle.repeatnomore.RepeatNoMore"
+    ]
+  },
+  "mixins": [
+    "repeat-no-more.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.13.1",
+    "java": ">=8"
+  }
+}
