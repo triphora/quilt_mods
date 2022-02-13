@@ -9,8 +9,7 @@ import io.github.coolcrabs.brachyura.maven.MavenId;
 import net.fabricmc.mappingio.tree.MappingTree;
 import org.jetbrains.annotations.Nullable;
 
-import static io.github.coolcrabs.brachyura.fabric.FabricProject.ModDependencyFlag.COMPILE;
-import static io.github.coolcrabs.brachyura.fabric.FabricProject.ModDependencyFlag.RUNTIME;
+import static io.github.coolcrabs.brachyura.fabric.FabricProject.ModDependencyFlag.*;
 
 @SuppressWarnings("unused")
 public class Buildscript extends FabricProject {
@@ -48,18 +47,17 @@ public class Buildscript extends FabricProject {
   public void getModDependencies(ModDependencyCollector d) {
     String[][] fapiModules = new String[][]{
             {"api-base", "0.4.2+d7c144a8f4"},
-            {"command-api-v1", "1.1.7+d7c144a8f4"},
-            {"lifecycle-events-v1", "1.4.13+713c266865"},
-            {"key-binding-api-v1", "1.0.10+54e5b2ecf4"}
+            {"command-api-v1", "1.1.7+d7c144a8f4"}
     };
     String[][] runtimeFapiModules = new String[][] {
+            {"lifecycle-events-v1", "1.4.13+713c266865"},
             {"rendering-data-attachment-v1", "0.3.5+d7c144a8f4"},
             {"rendering-fluids-v1", "0.1.19+3ac43d9565"},
             {"resource-loader-v0", "0.4.14+713c266865"},
             {"screen-api-v1", "1.0.8+d7c144a8f4"}
     };
     for (String[] module : fapiModules) {
-      d.addMaven(FabricMaven.URL, new MavenId(FabricMaven.GROUP_ID + ".fabric-api:fabric-" + module[0] + ':' + module[1]), RUNTIME, COMPILE);
+      d.addMaven(FabricMaven.URL, new MavenId(FabricMaven.GROUP_ID + ".fabric-api:fabric-" + module[0] + ':' + module[1]), RUNTIME, COMPILE, JIJ);
     }
     for (String[] module : runtimeFapiModules) {
       d.addMaven(FabricMaven.URL, new MavenId(FabricMaven.GROUP_ID + ".fabric-api:fabric-" + module[0] + ':' + module[1]), RUNTIME);

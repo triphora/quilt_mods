@@ -16,15 +16,18 @@
   "license": "Apache-2.0",
   "icon": "assets/compass-commands/icon.png",
 
-  "environment": "client",
+  "environment": "*",
   "entrypoints": {
     "client": [
-      "coffee.waffle.compasscommands.CompassCommands"
+      "coffee.waffle.compasscommands.CompassCommandsClient"
+    ],
+    "server": [
+      "coffee.waffle.compasscommands.CompassCommandsServer"
     ]
   },
 
   "depends": {
-    "fabricloader": ">=0.13.1",
+    "fabric-command-api-v1": ">=1.1.7",
     "java": ">=17"
   }
 }
