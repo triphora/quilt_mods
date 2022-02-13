@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "compass-commands",
+  "version": "0.0.0",
+
+  "name": "Compass Commands",
+  "description": "Improves the compass system",
+  "authors": [
+    "Emmaffle"
+  ],
+  "contact": {
+    "homepage": "https://modrinth.com/mod/compass-commands",
+    "sources": "https://github.com/wafflecoffee/compass-commands"
+  },
+
+  "license": "Apache-2.0",
+  "icon": "assets/compass-commands/icon.png",
+
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "coffee.waffle.compasscommands.CompassCommands"
+    ]
+  },
+
+  "depends": {
+    "fabricloader": ">=0.13.1",
+    "java": ">=17"
+  }
+}
