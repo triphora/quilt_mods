@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "id": "compass-commands",
-  "version": "0.0.0",
+  "version": "1.0.0",
 
   "name": "Compass Commands",
-  "description": "Improves the compass system",
+  "description": "Adds some commands for setting the compass target",
   "authors": [
     "Emmaffle"
   ],

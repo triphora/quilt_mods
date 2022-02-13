@@ -45,7 +45,7 @@ public class Buildscript extends FabricProject {
 
   @Override
   public void getModDependencies(ModDependencyCollector d) {
-    String[][] fapiModules = new String[][]{
+    String[][] fapiModules = new String[][] {
             {"api-base", "0.4.2+d7c144a8f4"},
             {"command-api-v1", "1.1.7+d7c144a8f4"}
     };
