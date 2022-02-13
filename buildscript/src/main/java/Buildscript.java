@@ -39,11 +39,6 @@ public class Buildscript extends FabricProject {
   }
 
   @Override
-  public int getJavaVersion() {
-    return 17;
-  }
-
-  @Override
   public void getModDependencies(ModDependencyCollector d) {
     String[][] fapiModules = new String[][] {
             {"api-base", "0.4.2+d7c144a8f4"},
@@ -57,7 +52,7 @@ public class Buildscript extends FabricProject {
             {"screen-api-v1", "1.0.8+d7c144a8f4"}
     };
     for (String[] module : fapiModules) {
-      d.addMaven(FabricMaven.URL, new MavenId(FabricMaven.GROUP_ID + ".fabric-api:fabric-" + module[0] + ':' + module[1]), RUNTIME, COMPILE, JIJ);
+      d.addMaven(FabricMaven.URL, new MavenId(FabricMaven.GROUP_ID + ".fabric-api:fabric-" + module[0] + ':' + module[1]), RUNTIME, COMPILE);
     }
     for (String[] module : runtimeFapiModules) {
       d.addMaven(FabricMaven.URL, new MavenId(FabricMaven.GROUP_ID + ".fabric-api:fabric-" + module[0] + ':' + module[1]), RUNTIME);

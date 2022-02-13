@@ -23,7 +23,7 @@ public class CompassCommandsClient implements ClientModInitializer {
     LiteralCommandNode<FabricClientCommandSource> compassCommand = ClientCommandManager.DISPATCHER.register(literal("compass")
             .then(literal("set").then(ClientCommandManager.argument("pos", BlockPosArgumentType.blockPos())
                     .executes(c -> {
-                      var fakeSource = new ServerCommandSource(null, client.player.getPos(), null, null, 0, null, null, null, null);
+                      ServerCommandSource fakeSource = new ServerCommandSource(null, client.player.getPos(), null, null, 0, null, null, null, null);
                       return setTarget(c.getArgument("pos", DefaultPosArgument.class).toAbsolutePos(fakeSource));
                     })))
             .then(literal("north").executes(c -> setTarget(0, -LIMIT)))

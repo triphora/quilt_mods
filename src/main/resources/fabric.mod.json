@@ -14,7 +14,7 @@
   },
 
   "license": "Apache-2.0",
-  "icon": "assets/compass-commands/icon.png",
+  "icon": "assets/compass-commands/icon.gif",
 
   "environment": "*",
   "entrypoints": {
@@ -27,7 +27,6 @@
   },
 
   "depends": {
-    "fabric-command-api-v1": ">=1.1.7",
-    "java": ">=17"
+    "fabric-command-api-v1": "*"
   }
 }
