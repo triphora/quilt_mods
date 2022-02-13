@@ -34,6 +34,8 @@ public class CompassCommandsServer implements DedicatedServerModInitializer {
               .then(literal("northeast").executes(c -> setTarget(LIMIT, -LIMIT, c.getSource().getPlayer())))
               .then(literal("southwest").executes(c -> setTarget(-LIMIT, LIMIT, c.getSource().getPlayer())))
               .then(literal("southeast").executes(c -> setTarget(LIMIT, LIMIT, c.getSource().getPlayer())))
+              .then(literal("spawn").executes(c -> setTarget(c.getSource().getPlayer().getSpawnPointPosition(), c.getSource().getPlayer())))
+              .then(literal("current").executes(c -> setTarget(c.getSource().getPlayer().getPos(), c.getSource().getPlayer())))
       );
       dispatcher.register(literal("comp").redirect(compassCommand));
     });

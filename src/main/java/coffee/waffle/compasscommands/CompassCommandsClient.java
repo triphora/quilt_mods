@@ -8,7 +8,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.command.argument.DefaultPosArgument;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -35,6 +34,8 @@ public class CompassCommandsClient implements ClientModInitializer {
             .then(literal("northeast").executes(c -> setTarget(LIMIT, -LIMIT)))
             .then(literal("southwest").executes(c -> setTarget(-LIMIT, LIMIT)))
             .then(literal("southeast").executes(c -> setTarget(LIMIT, LIMIT)))
+            .then(literal("spawn").executes(c -> setTarget(c.getSource().getPlayer().clientWorld.getSpawnPos())))
+            .then(literal("current").executes(c -> setTarget(c.getSource().getPlayer().getPos())))
     );
 
     ClientCommandManager.DISPATCHER.register(literal("comp").redirect(compassCommand));
