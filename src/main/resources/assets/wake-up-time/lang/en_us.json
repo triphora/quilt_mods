@@ -1,0 +1,10 @@
+{
+  "key.categories.wakeUpTime": "Wake Up Time",
+  "key.wakeUpTime.sendStatus": "Send villager clock status",
+  "key.wakeUpTime.status": "§bEmployed villagers are currently %s",
+  "key.wakeUpTime.lazyBums": "%s§b; %s§a seconds§b until working time",
+  "key.wakeUpTime.working": "§aworking§b; %s§a seconds§b until workday ends",
+  "key.wakeUpTime.sleeping": "§asleeping",
+  "key.wakeUpTime.gathering": "§agathering",
+  "key.wakeUpTime.wandering": "§awandering"
+}
