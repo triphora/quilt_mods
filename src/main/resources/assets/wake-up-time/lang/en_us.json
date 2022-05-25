@@ -1,4 +1,7 @@
 {
+  "wake-up-time.midnightconfig.title": "Wake Up Time",
+  "wake-up-time.midnightconfig.persistent": "Persistent notification",
+
   "key.categories.wakeUpTime": "Wake Up Time",
   "key.wakeUpTime.sendStatus": "Send villager clock status",
   "key.wakeUpTime.status": "§bEmployed villagers are currently %s",

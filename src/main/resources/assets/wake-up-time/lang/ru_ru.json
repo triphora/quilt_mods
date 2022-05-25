@@ -1,10 +1,12 @@
 {
+  "wake-up-time.midnightconfig.title": "Wake Up Time",
+
   "key.categories.wakeUpTime": "Wake Up Time",
-  "key.wakeUpTime.sendStatus": "Отправить статус распорядка дня жителей",
-  "key.wakeUpTime.status": "§bСейчас жители с профессией %s",
-  "key.wakeUpTime.lazyBums": "%s§b; %s§a секунд§b до начала рабочего дня",
-  "key.wakeUpTime.working": "§aработают§b; %s§a секунд§b до конца рабочего дня",
-  "key.wakeUpTime.sleeping": "§aспят",
-  "key.wakeUpTime.gathering": "§aсобираются",
-  "key.wakeUpTime.wandering": "§aбродят по деревне"
+  "key.wakeUpTime.sendStatus": "Показать статус жителей",
+  "key.wakeUpTime.status": "§bСтатус жителей - %s",
+  "key.wakeUpTime.lazyBums": "%s§b; %s§a секунды§b до рабочего времени",
+  "key.wakeUpTime.working": "§aработа§b; %s§a секунды§b до окончания рабочего дня",
+  "key.wakeUpTime.sleeping": "§aсон",
+  "key.wakeUpTime.gathering": "§aсбор",
+  "key.wakeUpTime.wandering": "§aсвободное время"
 }

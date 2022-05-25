@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "quilt_loader": {
+    "group": "coffee.waffle",
+    "id": "wake-up-time",
+    "version": "1.1.0",
+    "metadata": {
+      "name": "Wake Up Time",
+      "description": "Figure out what stage of the day your villagers are in",
+      "contributors": {
+        "Emmaffle": "Owner"
+      },
+      "contact": {
+        "homepage": "https://modrinth.com/mod/wake-up-time",
+        "sources": "https://github.com/emmods/wake-up-time",
+        "name-credits": "https://www.youtube.com/watch?v=nS2C8BmHP-c"
+      },
+      "license": "Apache-2.0",
+      "icon": "assets/wake-up-time/icon.png"
+    },
+    "intermediate_mappings": "net.fabricmc:intermediary",
+    "entrypoints": {
+      "client_init": "coffee.waffle.wakeuptime.WakeUpTime"
+    },
+    "depends": [
+      "quilt_base",
+      "quilt_lifecycle_events",
+      "quilt_resource_loader",
+      "fabric-key-binding-api-v1",
+      {
+        "id": "midnightlib",
+        "versions": ">=0.4.0"
+      },
+      {
+        "id": "modmenu",
+        "versions": ">=3.2.1",
+        "mandatory": false
+      }
+    ]
+  },
+  "minecraft": {
+    "environment": "client"
+  }
+}
