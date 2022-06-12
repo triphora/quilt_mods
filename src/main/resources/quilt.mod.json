@@ -3,7 +3,7 @@
   "quilt_loader": {
     "group": "coffee.waffle",
     "id": "orientation",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "metadata": {
       "name": "Critical Orientation",
       "description": "Snaps player direction to cardinal directions.",
@@ -21,7 +21,8 @@
     },
     "intermediate_mappings": "net.fabricmc:intermediary",
     "entrypoints": {
-      "client_init": "coffee.waffle.orientation.Orientation"
+      "client_init": "coffee.waffle.orientation.Orientation",
+      "client_events": "coffee.waffle.orientation.Orientation"
     },
     "depends": [
       "quilt_base",
@@ -35,6 +36,11 @@
       {
         "id": "minecraft",
         "versions": ">=1.19"
+      },
+      {
+        "id": "shadowedactionbar",
+        "reason": "Makes the text easier to read",
+        "optional": true
       },
       {
         "id": "modmenu",

@@ -23,24 +23,28 @@
 
 package coffee.waffle.orientation;
 
+import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
+import com.mojang.logging.LogUtils;
 import eu.midnightdust.lib.config.MidnightConfig;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.KeyBind;
+import net.minecraft.command.CommandBuildContext;
+import net.minecraft.server.command.CommandManager;
 import net.minecraft.text.Text;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.client.ClientModInitializer;
 import org.quiltmc.qsl.command.api.client.ClientCommandManager;
+import org.quiltmc.qsl.command.api.client.ClientCommandRegistrationCallback;
+import org.quiltmc.qsl.command.api.client.QuiltClientCommandSource;
 import org.quiltmc.qsl.lifecycle.api.client.event.ClientTickEvents;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_BACKSLASH;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_J;
 
-public class Orientation implements ClientModInitializer {
+public class Orientation implements ClientModInitializer, ClientTickEvents.End, ClientCommandRegistrationCallback {
   private static KeyBind alignPlayer;
   private static KeyBind alignPlayerConfigurable;
 
@@ -75,19 +79,22 @@ public class Orientation implements ClientModInitializer {
     alignPlayerConfigurable = new KeyBind("key.orientation.align-configurable", GLFW_KEY_J, category);
     KeyBindingHelper.registerKeyBinding(alignPlayer);
     KeyBindingHelper.registerKeyBinding(alignPlayerConfigurable);
+  }
 
-    ClientTickEvents.END.register(e -> {
-      if (alignPlayer.wasPressed()) align();
-      if (alignPlayerConfigurable.wasPressed()) setPlayerYaw(Config.customAlignment);
-    });
+  @Override
+  public void endClientTick(MinecraftClient client) {
+    if (alignPlayer.wasPressed()) align();
+    if (alignPlayerConfigurable.wasPressed()) setPlayerYaw(Config.customAlignment);
+  }
 
-    ClientCommandManager.getDispatcher().register(
-            ClientCommandManager.literal("align")
-                    .then(ClientCommandManager.argument("yaw", FloatArgumentType.floatArg(-180, 180)).executes(c -> {
-                      setPlayerYaw(FloatArgumentType.getFloat(c, "yaw"));
-                      return 1;
-                    }))
-                    .executes(c -> {
+  @Override
+  public void registerCommands(CommandDispatcher<QuiltClientCommandSource> dispatcher, CommandBuildContext buildContext, CommandManager.RegistrationEnvironment environment) {
+    dispatcher.register(ClientCommandManager.literal("align")
+            .then(ClientCommandManager.argument("yaw", FloatArgumentType.floatArg(-180, 180)).executes(c -> {
+              setPlayerYaw(FloatArgumentType.getFloat(c, "yaw"));
+              return 1;
+            }))
+            .executes(c -> {
               this.align();
               return 1;
             })
@@ -101,8 +108,7 @@ public class Orientation implements ClientModInitializer {
     final double oldYaw = player.getHeadYaw();
     final double newYaw = roundYaw(oldYaw);
 
-    LogManager.getLogger("orientation")
-            .printf(Level.DEBUG, "Yaw %s rounds to %s%n", oldYaw, newYaw);
+    LogUtils.getLogger().debug("Yaw {} rounds to {}", oldYaw, newYaw);
 
     setPlayerYaw(newYaw);
   }

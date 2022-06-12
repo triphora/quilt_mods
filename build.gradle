@@ -4,7 +4,7 @@ plugins {
   alias libs.plugins.minotaur
 }
 
-String releaseTitle = "Update to 1.19"
+String releaseTitle = "Fix /align command"
 String changeLog = null
 
 group = "coffee.waffle"
