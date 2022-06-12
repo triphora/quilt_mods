@@ -1,28 +1,15 @@
-//file:noinspection UnnecessaryQualifiedReference
-//file:noinspection GroovyAssignabilityCheck
 plugins {
-  id "fabric-loom" version "0.10.+"
-  id "com.modrinth.minotaur" version "1.2.+"
-  id "org.cadixdev.licenser" version "0.6.+"
-  id "maven-publish"
+  alias libs.plugins.quilt.loom
+  alias libs.plugins.quilt.licenser
+  alias libs.plugins.minotaur
 }
 
-boolean is_release = false
-String mod_version = loom.modVersion
-String release_title = null
+String releaseTitle = "Update to 1.19"
 String changeLog = null
 
-String mc_version = "1.18.1"
-String mc_version_major = "1.18"
-String yarn_mappings = "22"       // https://fabricmc.net/develop
-String loader_version = "0.12.12" // https://fabricmc.net/develop
-String fabric_version = "0.46.2"  // https://fabricmc.net/develop
-String modmenu_version = "3.0.0"  // https://modrinth.com/mod/modmenu/versions
-String midnight_version = "0.3.1" // https://modrinth.com/mod/midnightlib/versions
-
-archivesBaseName = "critical-orientation"
-version = mod_version + "+" + mc_version + (!is_release ? "-SNAPSHOT" : "")
 group = "coffee.waffle"
+archivesBaseName = "critical-orientation-" + libs.versions.minecraft.get()
+version = loom.modVersion
 
 repositories {
   maven {
@@ -35,59 +22,40 @@ repositories {
   }
 }
 
-idea { module { downloadJavadoc = false } }
-
-Set<String> apiModules = [
-        "api-base",
-        "lifecycle-events-v1",
-        "resource-loader-v0",
-        "key-binding-api-v1",
-        "command-api-v1"
-]
-
 dependencies {
-  minecraft "com.mojang:minecraft:${mc_version}"
-  mappings "net.fabricmc:yarn:${mc_version}+build.${yarn_mappings}:v2"
-  modImplementation "net.fabricmc:fabric-loader:${loader_version}"
-  apiModules.forEach { modImplementation(fabricApi.module("fabric-$it", "${fabric_version}+${mc_version_major}")) }
-  modRuntimeOnly(fabricApi.module("fabric-renderer-registries-v1", "${fabric_version}+${mc_version_major}"))
+  minecraft libs.minecraft
+  mappings loom.layered {
+    addLayer quiltMappings.mappings("org.quiltmc:quilt-mappings:${libs.versions.quilt.mappings.get()}:v2")
+  }
+  modImplementation libs.quilt.loader
+  modImplementation libs.quilted.fabric.api
 
-  modImplementation "com.terraformersmc:modmenu:${modmenu_version}"
-  modImplementation include("maven.modrinth:midnightlib:${midnight_version}")
+  modImplementation libs.modmenu, {transitive false}
+
+  modImplementation libs.midnightlib
+  include libs.midnightlib
 }
 
-tasks.withType(JavaCompile) { it.options.encoding = "UTF-8" }
+tasks.withType(JavaCompile).forEach {
+  it.options.encoding = "UTF-8"
+  it.options.release.set(17)
+  it.sourceCompatibility = 17
+}
 
-jar { from("LICENSE") }
+java.withSourcesJar()
+jar.from "LICENSE", "README.md"
 
-task modrinth(type: com.modrinth.minotaur.TaskModrinthUpload) {
-  onlyIf { System.getenv().MODRINTH_TOKEN }
-  token = System.getenv().MODRINTH_TOKEN
+license {
+  rule "LICENSE"
+  include "**/*.java"
+}
+
+modrinth {
   projectId = "AFqV4ew3"
-  versionType = "BETA"
-  versionNumber = mod_version
-  versionName = release_title
+  versionName = releaseTitle
   changelog = changeLog
   uploadFile = remapJar
-  addGameVersion(mc_version)
+  additionalFiles = [sourcesJar]
+  syncBodyFrom = project.file("README.md").text
 }
-
-java { withSourcesJar() }
-
-publishing {
-  publications {
-    mavenJava(MavenPublication) {
-      from components.java
-    }
-  }
-  repositories {
-    maven {
-      url = System.getenv().MAVEN_URL
-      credentials {
-        username = System.getenv().MAVEN_USER
-        password = System.getenv().MAVEN_PASS
-      }
-      authentication { basic(BasicAuthentication) }
-    }
-  }
-}
+tasks.modrinth.dependsOn tasks.modrinthSyncBody

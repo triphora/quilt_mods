@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2020 Bert Shuler
- * Copyright (c) 2021 wafflecoffee
+ * Copyright (c) 2021-2022 wafflecoffee
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,23 +25,24 @@ package coffee.waffle.orientation;
 
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import eu.midnightdust.lib.config.MidnightConfig;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.client.option.KeyBind;
+import net.minecraft.text.Text;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
+import org.quiltmc.loader.api.ModContainer;
+import org.quiltmc.qsl.base.api.entrypoint.client.ClientModInitializer;
+import org.quiltmc.qsl.command.api.client.ClientCommandManager;
+import org.quiltmc.qsl.lifecycle.api.client.event.ClientTickEvents;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_BACKSLASH;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_J;
 
 public class Orientation implements ClientModInitializer {
-  private static KeyBinding alignPlayer;
-  private static KeyBinding alignPlayerConfigurable;
+  private static KeyBind alignPlayer;
+  private static KeyBind alignPlayerConfigurable;
 
   private static double roundYaw(double yaw) {
     yaw = yaw % 360;
@@ -66,21 +67,21 @@ public class Orientation implements ClientModInitializer {
   }
 
   @Override
-  public void onInitializeClient() {
-    MidnightConfig.init("orientation", Config.class);
+  public void onInitializeClient(ModContainer mod) {
+    MidnightConfig.init(mod.metadata().id(), Config.class);
 
     final String category = "key.categories.orientation";
-    alignPlayer = new KeyBinding("key.orientation.align", GLFW_KEY_BACKSLASH, category);
-    alignPlayerConfigurable = new KeyBinding("key.orientation.align-configurable", GLFW_KEY_J, category);
+    alignPlayer = new KeyBind("key.orientation.align", GLFW_KEY_BACKSLASH, category);
+    alignPlayerConfigurable = new KeyBind("key.orientation.align-configurable", GLFW_KEY_J, category);
     KeyBindingHelper.registerKeyBinding(alignPlayer);
     KeyBindingHelper.registerKeyBinding(alignPlayerConfigurable);
 
-    ClientTickEvents.END_CLIENT_TICK.register(e -> {
+    ClientTickEvents.END.register(e -> {
       if (alignPlayer.wasPressed()) align();
       if (alignPlayerConfigurable.wasPressed()) setPlayerYaw(Config.customAlignment);
     });
 
-    ClientCommandManager.DISPATCHER.register(
+    ClientCommandManager.getDispatcher().register(
             ClientCommandManager.literal("align")
                     .then(ClientCommandManager.argument("yaw", FloatArgumentType.floatArg(-180, 180)).executes(c -> {
                       setPlayerYaw(FloatArgumentType.getFloat(c, "yaw"));
@@ -111,7 +112,7 @@ public class Orientation implements ClientModInitializer {
 
     //noinspection ConstantConditions
     player.refreshPositionAndAngles(player.getX(), player.getY(), player.getZ(), (float) yaw, player.getPitch(0));
-    player.sendMessage(new TranslatableText("msg.orientation.align", yaw), true);
+    player.sendMessage(Text.translatable("msg.orientation.align", yaw), true);
   }
 
   public static class Config extends MidnightConfig {
