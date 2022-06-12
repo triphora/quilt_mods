@@ -57,5 +57,9 @@ modrinth {
   uploadFile = remapJar
   additionalFiles = [sourcesJar]
   syncBodyFrom = project.file("README.md").text
+  dependencies {
+    required.project "qsl"
+    optional.project "shadowedactionbar"
+  }
 }
 tasks.modrinth.dependsOn tasks.modrinthSyncBody
