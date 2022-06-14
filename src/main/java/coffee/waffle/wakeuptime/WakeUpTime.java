@@ -60,7 +60,6 @@ public class WakeUpTime implements ClientModInitializer, ClientTickEvents.End {
   }
 
   public static class Config extends MidnightConfig {
-    @Entry
-    public static boolean persistent = false;
+    @Entry public static boolean persistent = false;
   }
 }

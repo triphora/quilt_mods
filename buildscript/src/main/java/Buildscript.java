@@ -51,32 +51,30 @@ public class Buildscript extends SimpleQuiltProject {
   @Override
   public void getModDependencies(ModDependencyCollector d) {
     // https://maven.quiltmc.org/repository/release/org/quiltmc/qsl/
-    String[] qslModules = new String[]{
+    String[] qslModules = new String[] {
             "core:qsl_base",
             "core:lifecycle_events",
             "core:networking",
     };
-    String[] runtimeQslModules = new String[]{
+    String[] runtimeQslModules = new String[] {
             "core:resource_loader",
             "data:registry_entry_attachments",
             "data:tags",
             "gui:screen",
             "gui:tooltip",
     };
-    for (String module : qslModules)
-      d.addMaven(QuiltMaven.URL,
-              new MavenId(QuiltMaven.GROUP_ID + ".qsl." + module + ':' + QSL_VERSION + '+' + MC_VERSION), RUNTIME, COMPILE);
-    for (String module : runtimeQslModules)
-      d.addMaven(QuiltMaven.URL,
-              new MavenId(QuiltMaven.GROUP_ID + ".qsl." + module + ':' + QSL_VERSION + '+' + MC_VERSION), RUNTIME);
+    for (String module : qslModules) d.addMaven(QuiltMaven.URL,
+            new MavenId(QuiltMaven.GROUP_ID + ".qsl." + module + ':' + QSL_VERSION + '+' + MC_VERSION), RUNTIME, COMPILE);
+    for (String module : runtimeQslModules) d.addMaven(QuiltMaven.URL,
+            new MavenId(QuiltMaven.GROUP_ID + ".qsl." + module + ':' + QSL_VERSION + '+' + MC_VERSION), RUNTIME);
 
     // https://maven.fabricmc.net/net/fabricmc/fabric-api/
-    String[] qfapiModules = new String[]{
+    String[] qfapiModules = new String[] {
             "api-base",
             "key-binding-api-v1",
             "lifecycle-events-v1",
     };
-    String[] runtimeQfapiModules = new String[]{
+    String[] runtimeQfapiModules = new String[] {
             "renderer-registries-v1",
             "rendering-v1",
             "rendering-data-attachment-v1",
@@ -84,12 +82,10 @@ public class Buildscript extends SimpleQuiltProject {
             "resource-loader-v0",
             "screen-api-v1",
     };
-    for (String module : qfapiModules)
-      d.addMaven(QuiltMaven.URL,
-              new MavenId(QuiltMaven.GROUP_ID + ".quilted-fabric-api:fabric-" + module + ':' + QFAPI_VERSION + '-' + MC_VERSION), RUNTIME, COMPILE);
-    for (String module : runtimeQfapiModules)
-      d.addMaven(QuiltMaven.URL,
-              new MavenId(QuiltMaven.GROUP_ID + ".quilted-fabric-api:fabric-" + module + ':' + QFAPI_VERSION + '-' + MC_VERSION), RUNTIME);
+    for (String module : qfapiModules) d.addMaven(QuiltMaven.URL,
+            new MavenId(QuiltMaven.GROUP_ID + ".quilted-fabric-api:fabric-" + module + ':' + QFAPI_VERSION + '-' + MC_VERSION), RUNTIME, COMPILE);
+    for (String module : runtimeQfapiModules) d.addMaven(QuiltMaven.URL,
+            new MavenId(QuiltMaven.GROUP_ID + ".quilted-fabric-api:fabric-" + module + ':' + QFAPI_VERSION + '-' + MC_VERSION), RUNTIME);
 
     jij(d.addMaven(MODRINTH_MAVEN, new MavenId("maven.modrinth:midnightlib:0.5.2"), RUNTIME, COMPILE));
 
