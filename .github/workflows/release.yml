@@ -9,11 +9,7 @@ jobs:
       - uses: actions/setup-java@v2
         with:
           distribution: adopt
-          java-version: 16
-      - run: ./gradlew shadowJar modrinth # publish -- maven is currently down
+          java-version: 17
+      - run: ./gradlew modrinth
         env:
-          MODRINTH: ${{ secrets.MODRINTH }}
-          MAVEN_URL: "https://maven.waffle.coffee/releases"
-          MAVEN_USER: ${{ secrets.MAVEN_USER }}
-          MAVEN_PASS: ${{ secrets.MAVEN_PASS }}
-          SNAPSHOT: ""
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}

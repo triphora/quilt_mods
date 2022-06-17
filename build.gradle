@@ -1,85 +1,45 @@
-//file:noinspection UnnecessaryQualifiedReference
-//file:noinspection GroovyAssignabilityCheck
 plugins {
-  id "com.github.johnrengelman.shadow" version "7.+"
-  id "com.modrinth.minotaur" version "1.2.+"
-  id "org.cadixdev.licenser" version "0.6.+"
+  alias libs.plugins.minotaur
+  alias libs.plugins.licenser
+  alias libs.plugins.machete
   id "java"
-  id "maven-publish"
 }
 
-String version_name = "Remove config migration (it was broken)"
+String version_name = "Migrate to Quilt Loader"
 
 archivesBaseName = "clean-logs"
-version = "1.1.0" + System.getenv().SNAPSHOT
+version = "1.2.0" // remember to also change quilt.mod.json
 group = "coffee.waffle"
 
 repositories {
   mavenCentral()
+  maven { url = "https://maven.quiltmc.org/repository/release/" }
   maven { url = "https://maven.fabricmc.net/" }
 }
 
 dependencies {
-  compileOnly "net.fabricmc:fabric-loader:0.12.12"
-  implementation shadow("com.moandjiezana.toml:toml4j:0.7.+") { transitive = false }
-  compileOnly "org.apache.logging.log4j:log4j-core:2.17.+"
-  compileOnly 'org.jetbrains:annotations:22.+'
+  implementation libs.bundles.implementation
+  compileOnly libs.bundles.compile
 }
 
 tasks.withType(JavaCompile).configureEach {
   it.options.encoding = "UTF-8"
-  //noinspection all
-  it.options.release = 8
+  it.options.release.set(15)
 }
 
-processResources {
-  inputs.property "version", project.version
-
-  filesMatching("fabric.mod.json") {
-    expand "version": project.version
-  }
-}
-
-jar {
-  from("LICENSE")
-}
+jar.from("LICENSE")
+java.withSourcesJar()
 
 license {
-  header = rootProject.file('HEADER')
+  rule project.file('HEADER')
+  include "**/*.java"
 }
 
-Set<String> supported_mc_versions = [ "1.18.1", "1.17.1", "1.16.5", "1.16.1", "1.15.2", "1.14.4" ]
-
-task modrinth(type: com.modrinth.minotaur.TaskModrinthUpload) {
-  onlyIf { System.getenv("MODRINTH") }
-  token = System.getenv("MODRINTH")
-  projectId = "OTteoJUk"
-  versionNumber = version
-  versionType = "RELEASE"
-  uploadFile = shadowJar
+modrinth {
+  projectId = "clean-logs"
+  uploadFile = jar
+  additionalFiles = [sourcesJar]
   versionName = version_name
-  supported_mc_versions.each {
-    String gameVersion -> addGameVersion gameVersion
-  }
-  addLoader "fabric"
-}
-
-java { withSourcesJar() }
-
-publishing {
-  publications {
-    mavenJava(MavenPublication) {
-      from components.java
-    }
-  }
-  repositories {
-    maven {
-      url = System.getenv().MAVEN_URL
-      credentials {
-        username = System.getenv().MAVEN_USER
-        password = System.getenv().MAVEN_PASS
-      }
-      authentication { basic(BasicAuthentication) }
-    }
-  }
+  gameVersions = ["1.19", "1.18.2"]
+  loaders = ["quilt"]
 }

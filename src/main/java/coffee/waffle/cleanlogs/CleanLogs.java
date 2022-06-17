@@ -16,57 +16,52 @@
 
 package coffee.waffle.cleanlogs;
 
-import com.moandjiezana.toml.Toml;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
-import org.apache.logging.log4j.core.config.LoggerConfig;
+import org.quiltmc.loader.api.ModContainer;
+import org.quiltmc.loader.api.QuiltLoader;
+import org.quiltmc.loader.api.config.QuiltConfig;
+import org.quiltmc.loader.api.entrypoint.PreLaunchEntrypoint;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+
+import static coffee.waffle.cleanlogs.ConfigHelper.*;
 
 public class CleanLogs implements PreLaunchEntrypoint {
   private static final String MODID = "clean-logs";
   public static final Logger LOGGER = LogManager.getLogger(MODID);
-  public static final Toml CONFIG = getConfig();
+  public static final Config CONFIG = QuiltConfig.create("clean-logs", "config", Config.class);
   public static final JavaUtilLog4jFilter FILTER = new JavaUtilLog4jFilter();
 
   @Override
-  public void onPreLaunch() {
-    boolean shouldPrintOnStart = CONFIG.getBoolean(MODID + ".printOnStart");
-    boolean shouldPrintSingleLine = CONFIG.getBoolean(MODID + ".printInitLineOnStart");
+  public void onPreLaunch(ModContainer mod) {
+    migrate();
 
-    List<String> phraseFilter = CONFIG.getList(MODID + ".phrases");
+    if (PRINT_INIT_LINE) LOGGER.info("=== Clean Logs will filter from this point on. ===");
 
-    if (shouldPrintSingleLine) LOGGER.info("=== Clean Logs will filter from this point on. ===");
-
-    if (shouldPrintOnStart && !phraseFilter.isEmpty()) {
+    if (PRINT_ON_START && !CONFIG.phrases.isEmpty()) {
       LOGGER.info("=== Messages containing the following phrases will be filtered out: ===");
-      for (String entry : phraseFilter) LOGGER.info(entry);
+      for (var entry : CONFIG.phrases) LOGGER.info(entry);
     }
 
-    List<String> regexFilter = CONFIG.getList(MODID + ".regex");
-    if (shouldPrintOnStart && !regexFilter.isEmpty()) {
+    if (PRINT_ON_START && !CONFIG.regex.isEmpty()) {
       LOGGER.info("=== Messages matching the regex patterns will be filtered out: ===");
-      for (String entry : regexFilter) LOGGER.info(entry);
+      for (var entry : CONFIG.regex) LOGGER.info(entry);
     }
 
     System.setOut(new SystemPrintFilter(System.out));
     java.util.logging.Logger.getLogger("").setFilter(FILTER);
     ((org.apache.logging.log4j.core.Logger) LogManager.getRootLogger()).addFilter(FILTER);
-    ArrayList<LoggerConfig> foundOffshootLog4jLoggers = new ArrayList<>();
-    LoggerContext logContext = (LoggerContext) LogManager.getContext(false);
-    Map<String, LoggerConfig> map = logContext.getConfiguration().getLoggers();
+    var foundOffshootLog4jLoggers = new ArrayList<>();
+    var logContext = (LoggerContext) LogManager.getContext(false);
+    var map = logContext.getConfiguration().getLoggers();
 
-    for (LoggerConfig logger : map.values()) {
+    for (var logger : map.values()) {
       if (!foundOffshootLog4jLoggers.contains(logger)) {
         logger.addFilter(FILTER);
         foundOffshootLog4jLoggers.add(logger);
@@ -75,12 +70,10 @@ public class CleanLogs implements PreLaunchEntrypoint {
   }
 
   public static boolean shouldFilterMessage(String message) {
-    List<String> phraseFilter = CONFIG.getList(MODID + ".phrases");
-    Iterator<String> stringIterator = phraseFilter.iterator();
+    var stringIterator = CONFIG.phrases.iterator();
     String phrase;
 
-    List<String> regexFilter = CONFIG.getList(MODID + ".regex");
-    Iterator<String> regexIterator = regexFilter.iterator();
+    var regexIterator = CONFIG.regex.iterator();
     String regex;
 
     do {
@@ -96,23 +89,52 @@ public class CleanLogs implements PreLaunchEntrypoint {
     return true;
   }
 
-  private static Toml getConfig() {
-    File oldConfig = new File(FabricLoader.getInstance().getConfigDir() + "/shutupconsole.toml");
-    File config = new File(FabricLoader.getInstance().getConfigDir() + "/clean-logs.toml");
-    if (oldConfig.exists()) {
-      LOGGER.info("You still have an old Shut Up Console config!");
-      LOGGER.info("Please rename it to `clean-logs.toml` and replace `[shutupconsole]` with `[clean-logs]`.");
-      LOGGER.info("If you want to utilise the new printOnStart feature, also add the following line to clean-logs.toml under the [clean-logs] heading:");
-      LOGGER.info("`printOnStart = false`");
-    }
+  private static void migrate() {
+    var newConfigLocation = new File(QuiltLoader.getConfigDir() + "/clean-logs/config.toml");
 
-    if (!config.exists()) {
+    var shutUpConsoleConfig = new File(QuiltLoader.getConfigDir() + "/shutupconsole.toml");
+    if (shutUpConsoleConfig.exists()) {
+      LOGGER.warn("You still have an old Shut Up Console config!");
+      LOGGER.warn("Migrating it to a Clean Logs config...");
       try {
-        Files.copy(Objects.requireNonNull(CleanLogs.class.getResourceAsStream("/assets/clean-logs/config.toml")), config.toPath());
+        var path = Paths.get(shutUpConsoleConfig.getPath());
+        var content = Files.readString(path);
+        content = content.replaceAll("Shut Up Console", "Clean Logs");
+        content = content.replaceAll("\\[shutupconsole]", """
+# Print out all phrases and regex to be filtered out on startup
+# default: true
+printOnStart = true
+
+# Print a single line on start saying that Clean Logs will filter from this point forward
+# default: false
+printInitLineOnStart = false
+                """);
+        Files.writeString(path, content);
+        //noinspection ResultOfMethodCallIgnored
+        path.toFile().renameTo(newConfigLocation);
+        LOGGER.info("Successfully migrated Shut Up Console config to Clean Logs config.");
+        LOGGER.info("You may need to restart the game for it to take effect.");
       } catch (IOException e) {
-        LOGGER.error("An error occurred when creating a new config", e);
+        LOGGER.error("Migration of Shut Up Console config to Clean Logs config failed.", e);
       }
     }
-    return new Toml().read(config);
+
+    var oldCleanLogsConfig = new File(QuiltLoader.getConfigDir() + "/clean-logs.toml");
+    if (oldCleanLogsConfig.exists()) {
+      try {
+        LOGGER.warn("You still have an old Clean Logs (pre-1.2.0) config!");
+        LOGGER.warn("Migrating it to a new Clean Logs config...");
+        var path = Paths.get(oldCleanLogsConfig.getPath());
+        var content = Files.readString(path);
+        content = content.replaceAll("\\[clean-logs]", "");
+        Files.writeString(path, content);
+        //noinspection ResultOfMethodCallIgnored
+        path.toFile().renameTo(newConfigLocation);
+        LOGGER.info("Successfully migrated old Clean Logs config to new Clean Logs config.");
+        LOGGER.info("You may need to restart the game for it to take effect.");
+      } catch (IOException e) {
+        LOGGER.error("Migration of old Clean Log config to new Clean Logs config failed.", e);
+      }
+    }
   }
 }
