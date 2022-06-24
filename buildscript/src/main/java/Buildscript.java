@@ -89,8 +89,6 @@ public class Buildscript extends SimpleQuiltProject {
     for (String module : runtimeQfapiModules) d.addMaven(QuiltMaven.URL,
             new MavenId(QuiltMaven.GROUP_ID + ".quilted-fabric-api:fabric-" + module + ':' + QFAPI_VERSION + '-' + MC_VERSION), RUNTIME);
 
-    jij(d.addMaven(MODRINTH_MAVEN, new MavenId("maven.modrinth:midnightlib:0.5.2"), RUNTIME, COMPILE));
-
     d.addMaven(TERRAFORMERS_MAVEN, new MavenId("com.terraformersmc:modmenu:4.0.0"), RUNTIME);
     d.addMaven(MODRINTH_MAVEN, new MavenId("maven.modrinth:sodium:mc1.19-0.4.2"), RUNTIME);
     d.addMaven(MODRINTH_MAVEN, new MavenId("maven.modrinth:lithium:mc1.19-0.8.0"), RUNTIME);

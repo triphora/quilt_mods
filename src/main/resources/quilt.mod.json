@@ -36,11 +36,6 @@
         "versions": ">=1.19"
       },
       {
-        "id": "midnightlib",
-        "versions": ">=0.5.2",
-        "reason": "Config library"
-      },
-      {
         "id": "modmenu",
         "versions": ">=4.0.0",
         "environment": "client",
