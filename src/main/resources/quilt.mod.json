@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "quilt_loader": {
+    "group": "coffee.waffle",
+    "id": "compass_commands",
+    "version": "1.1.0",
+    "metadata": {
+      "name": "Compass Commands",
+      "description": "Adds some commands for setting the compass target",
+      "contributors": {
+        "Emmaffle": "Owner"
+      },
+      "contact": {
+        "homepage": "https://modrinth.com/mod/compass-commandse",
+        "issues": "https://github.com/emmods/compass-commands/issues",
+        "sources": "https://github.com/emmods/compass-commands"
+      },
+      "license": "Apache-2.0",
+      "icon": "assets/compass-commands/icon.gif"
+    },
+    "intermediate_mappings": "net.fabricmc:intermediary",
+    "entrypoints": {
+      "client_events": "coffee.waffle.compasscommands.CompassCommandsClient",
+      "server_events": "coffee.waffle.compasscommands.CompassCommandsServer"
+    },
+    "depends": [
+      "quilt_base",
+      "quilt_resource_loader",
+      "quilt_command",
+      {
+        "id": "quilt_client_command",
+        "environment": "client"
+      },
+      {
+        "id": "minecraft",
+        "versions": ">=1.19"
+      },
+      {
+        "id": "midnightlib",
+        "versions": ">=0.5.2",
+        "reason": "Config library"
+      },
+      {
+        "id": "modmenu",
+        "versions": ">=4.0.0",
+        "environment": "client",
+        "optional": true
+      }
+    ]
+  }
+}
