@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "quilt_loader": {
+    "group": "com.emmacypress",
+    "id": "emmod",
+    "version": "1.0.0",
+    "metadata": {
+      "name": "Emmod",
+      "description": "A mod which should only be used by Emma",
+      "contributors": {
+        "Emmaffle": "Owner"
+      },
+      "contact": {
+        "issues": "https://github.com/emmods/emmod/issues",
+        "sources": "https://github.com/emmods/emmod"
+      },
+      "license": "WTFPL"
+    },
+    "intermediate_mappings": "net.fabricmc:intermediary"
+  },
+  "mixin": "emmod.mixins.json",
+  "minecraft": {
+    "environment": "client"
+  }
+}
