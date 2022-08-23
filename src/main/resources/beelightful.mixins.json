@@ -1,0 +1,12 @@
+{
+	"required": true,
+	"minVersion": "0.8",
+	"package": "com.emmacypress.beelightful.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"mixins": [
+		"BeeEntityMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
