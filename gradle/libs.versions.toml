@@ -1,8 +1,7 @@
 # https://lambdaurora.dev/tools/import_quilt.html
 [versions]
 minecraft = "1.19.2"
-quilt_mappings = "1.19.2+build.6"
-# quilt_mappings = "1.19.2+build.intermediary-test.1"
+quilt_mappings = "1.19.2+build.intermediary-test.1"
 
 quilt_loader = "0.17.3"
 quilted_fabric_api = "4.0.0-beta.7+0.59.0-1.19.2"
@@ -55,3 +54,4 @@ runtime = [
 
 [plugins]
 quilt_loom = { id = "org.quiltmc.loom", version = "0.12.+" }
+minotaur = { id = "com.modrinth.minotaur", version = "2.+" }

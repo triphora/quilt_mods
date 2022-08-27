@@ -3,7 +3,7 @@
 	"quilt_loader": {
 		"group": "com.emmacypress",
 		"id": "beelightful",
-		"version": "0.1.0",
+		"version": "0.1.1-SNAPSHOT",
 		"metadata": {
 			"name": "Beelightful",
 			"description": "Making bee stings more realistic since 2022.",
@@ -11,12 +11,14 @@
 				"Emmaffle": "Owner"
 			},
 			"contact": {
+				"email": "emmaffle@modrinth.com",
 				"homepage": "https://modrinth.com/mod/beelightful",
 				"issues": "https://codeberg.org/emmods/beelightful/issues",
 				"sources": "https://codeberg.org/emmods/beelightful",
 				"discord": "https://discord.gg/EES4w9qbtk",
 				"donate": "https://buymeacoff.ee/emmaffle"
 			},
+			"license": "zlib",
 			"icon": "assets/beelightful/icon.png"
 		},
 		"intermediate_mappings": "net.fabricmc:intermediary",
