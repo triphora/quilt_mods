@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "quilt_loader": {
+    "group": "coffee.waffle",
+    "id": "clean_logs",
+    "version": "1.2.0",
+    "metadata": {
+      "name": "Clean Logs",
+      "description": "Filters out messages in the console/log by user-defined filters.",
+      "contributors": {
+        "wafflecoffee": "Owner",
+        "Bravarly": "Original Owner"
+      },
+      "contact": {
+        "homepage": "https://modrinth.com/mod/clean-logs",
+        "issues": "https://github.com/emmods/clean-logs/issues",
+        "sources": "https://github.com/emmods/clean-logs"
+      },
+      "license": "LGPL-3.0-or-later",
+      "icon": "assets/clean-logs/icon.png"
+    },
+    "intermediate_mappings": "net.fabricmc:intermediary",
+    "entrypoints": {
+      "pre_launch": "coffee.waffle.cleanlogs.CleanLogs"
+    },
+    "depends": [
+      {
+        "id": "java",
+        "version": ">=15",
+        "reason": "Text blocks require Java 15 or higher"
+      },
+      {
+        "id": "quilt_loader",
+        "version": ">=0.17.0",
+        "reason": "Quilt Config is in use by this project"
+      }
+    ]
+  }
+}
