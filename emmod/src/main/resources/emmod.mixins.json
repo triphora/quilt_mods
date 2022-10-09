@@ -1,12 +1,12 @@
 {
-  "required": true,
-  "minVersion": "0.8",
-  "package": "com.emmacypress.emmod.mixin",
-  "compatibilityLevel": "JAVA_17",
-  "client": [
-    "ChatHudMixin"
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  }
+	"required": true,
+	"minVersion": "0.8",
+	"package": "com.emmacypress.emmod.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"client": [
+		"ChatHudMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
 }

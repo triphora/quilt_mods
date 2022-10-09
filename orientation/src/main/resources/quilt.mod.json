@@ -1,55 +1,60 @@
 {
-  "schema_version": 1,
-  "quilt_loader": {
-    "group": "coffee.waffle",
-    "id": "orientation",
-    "version": "3.0.1",
-    "metadata": {
-      "name": "Critical Orientation",
-      "description": "Snaps player direction to cardinal directions.",
-      "contributors": {
-        "wafflecoffee": "Owner",
-        "TheCritic": "Former Owner"
-      },
-      "contact": {
-        "homepage": "https://modrinth.com/mod/orientation",
-        "sources": "https://github.com/emmods/critical-orientation",
-        "issues": "https://github.com/emmods/critical-orientation/issues"
-      },
-      "license": "MIT",
-      "icon": "assets/orientation/icon.png"
-    },
-    "intermediate_mappings": "net.fabricmc:intermediary",
-    "entrypoints": {
-      "client_init": "coffee.waffle.orientation.Orientation",
-      "client_events": "coffee.waffle.orientation.Orientation"
-    },
-    "depends": [
-      "quilt_base",
-      "quilt_client_command",
-      "quilt_lifecycle_events",
-      {
-        "id": "midnightlib",
-        "versions": ">=0.5.2",
-        "reason": "Config library"
-      },
-      {
-        "id": "minecraft",
-        "versions": ">=1.19"
-      },
-      {
-        "id": "shadowedactionbar",
-        "reason": "Makes the text easier to read",
-        "optional": true
-      },
-      {
-        "id": "modmenu",
-        "versions": ">=4.0.0",
-        "optional": true
-      }
-    ]
-  },
-  "minecraft": {
-    "environment": "client"
-  }
+	"schema_version": 1,
+	"quilt_loader": {
+		"group": "coffee.waffle",
+		"id": "orientation",
+		"version": "3.0.1",
+		"metadata": {
+			"name": "Critical Orientation",
+			"description": "Snaps player direction to cardinal directions",
+			"contributors": {
+				"wafflecoffee": "Owner",
+				"TheCritic": "Former Owner"
+			},
+			"contact": {
+				"email": "emmaffle@modrinth.com",
+				"homepage": "https://modrinth.com/mod/orientation",
+				"issues": "https://codeberg.org/orchid/quilt_mods/issues",
+				"sources": "https://codeberg.org/orchid/quilt_mods",
+				"discord": "https://discord.gg/EES4w9qbtk",
+				"donate": "https://buymeacoff.ee/emmaffle"
+			},
+			"license": "MIT",
+			"icon": "assets/orientation/icon.png"
+		},
+		"intermediate_mappings": "net.fabricmc:intermediary",
+		"entrypoints": {
+			"client_init": "com.emmacypress.orientation.Orientation",
+			"client_events": "com.emmacypress.orientation.Orientation"
+		},
+		"depends": [
+			"quilt_base",
+			"quilt_client_command",
+			"quilt_lifecycle_events",
+			{
+				"id": "midnightlib",
+				"versions": ">=0.6.1",
+				"reason": "Config library"
+			},
+			{
+				"id": "minecraft",
+				"versions": ">=1.19.2"
+			},
+			{
+				"id": "modmenu",
+				"versions": ">=4.0.6",
+				"optional": true
+			}
+		]
+	},
+	"minecraft": {
+		"environment": "client"
+	},
+	"modmenu": {
+		"links": {
+			"modmenu.buymeacoffee": "https://buymeacoff.ee/emmaffle",
+			"modmenu.discord": "https://discord.gg/EES4w9qbtk",
+			"modmenu.modrinth": "https://modrinth.com/mod/orientation"
+		}
+	}
 }

@@ -11,7 +11,6 @@ public class RepeatNoMore implements ClientModInitializer {
 	}
 
 	public static class Config extends MidnightConfig {
-		@Entry
-		public static boolean enableMod = true;
+		@Entry public static boolean enableMod = true;
 	}
 }

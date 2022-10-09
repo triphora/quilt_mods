@@ -1,9 +1,10 @@
 {
 	"wake_up_time.midnightconfig.title": "Wake Up Time",
 	"wake_up_time.midnightconfig.persistent": "Persistent notification",
-	"wake_up_time.category": "Wake Up Time",
 
+	"wake_up_time.category": "Wake Up Time",
 	"wake_up_time.send_status": "Send villager clock status",
+
 	"wake_up_time.status": "§bEmployed villagers are currently %s",
 	"wake_up_time.lazy_bums": "%s§b; %s§a seconds§b until working time",
 	"wake_up_time.working": "§aworking§b; %s§a seconds§b until workday ends",

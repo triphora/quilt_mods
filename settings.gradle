@@ -12,6 +12,8 @@ pluginManagement {
 	}
 }
 
+include 'emmod'
 include 'only_pink_sheeps'
+include 'orientation'
 include 'repeat_no_more'
 include 'wake_up_time'
