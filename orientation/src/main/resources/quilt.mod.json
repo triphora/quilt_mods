@@ -1,14 +1,14 @@
 {
 	"schema_version": 1,
 	"quilt_loader": {
-		"group": "coffee.waffle",
+		"group": "com.emmacypress",
 		"id": "orientation",
 		"version": "3.0.1",
 		"metadata": {
 			"name": "Critical Orientation",
 			"description": "Snaps player direction to cardinal directions",
 			"contributors": {
-				"wafflecoffee": "Owner",
+				"Emmaffle": "Owner",
 				"TheCritic": "Former Owner"
 			},
 			"contact": {

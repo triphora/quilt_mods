@@ -1,45 +1,11 @@
-plugins {
-  alias libs.plugins.minotaur
-  alias libs.plugins.licenser
-  alias libs.plugins.machete
-  id "java"
-}
-
-String version_name = "Migrate to Quilt Loader"
-
-archivesBaseName = "clean-logs"
-version = "1.2.0" // remember to also change quilt.mod.json
-group = "coffee.waffle"
-
-repositories {
-  mavenCentral()
-  maven { url = "https://maven.quiltmc.org/repository/release/" }
-  maven { url = "https://maven.fabricmc.net/" }
-}
-
-dependencies {
-  implementation libs.bundles.implementation
-  compileOnly libs.bundles.compile
-}
-
 tasks.withType(JavaCompile).configureEach {
-  it.options.encoding = "UTF-8"
-  it.options.release.set(15)
+  it.options.release = 15
+	it.sourceCompatibility = 15
 }
 
-jar.from("LICENSE")
-java.withSourcesJar()
-
-license {
-  rule project.file('HEADER')
-  include "**/*.java"
-}
+loom.runtimeOnlyLog4j = false
 
 modrinth {
-  projectId = "clean-logs"
-  uploadFile = jar
-  additionalFiles = [sourcesJar]
-  versionName = version_name
-  gameVersions = ["1.19", "1.18.2"]
-  loaders = ["quilt"]
+  projectId = 'clean-logs'
+  gameVersions.add('1.18.2')
 }

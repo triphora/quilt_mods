@@ -23,7 +23,7 @@ public class BeeEntityMixin {
 		boolean normalMode = difficulty == 10;
 		boolean hardMode = difficulty == 18;
 		int healthPoints = normalMode ? 2 : hardMode ? 3 : 0;
-		var bee = (BeeEntity) (Object) this;
+		@SuppressWarnings("ConstantConditions") var bee = (BeeEntity) (Object) this;
 
 		switch (getBeeStingEffect(target)) {
 			case 0, 1 -> {} // No poison! Congratulations.

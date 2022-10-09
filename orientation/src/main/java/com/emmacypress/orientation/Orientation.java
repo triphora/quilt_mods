@@ -1,4 +1,4 @@
-package coffee.waffle.orientation;
+package com.emmacypress.orientation;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;

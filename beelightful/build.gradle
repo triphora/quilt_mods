@@ -1,69 +1,11 @@
-plugins {
-	alias libs.plugins.quilt.loom
-	alias libs.plugins.minotaur
-}
-
-group = 'com.emmacypress'
-archivesBaseName = 'beelightful'
-version = loom.modVersion
-
-repositories {
-	maven {
-		name = 'OroArmor'
-		url = 'https://maven.oroarmor.com'
-	}
-	maven {
-		name = 'Modrinth'
-		url = 'https://api.modrinth.com/maven'
-	}
-	maven {
-		name = 'TerraformersMC'
-		url = 'https://maven.terraformersmc.com'
-	}
-	maven {
-		name = 'Auoeke'
-		url = 'https://maven.auoeke.net'
-	}
-}
-
-dependencies {
-	minecraft libs.minecraft
-	mappings(variantOf(libs.quilt.mappings) { classifier 'intermediary-v2' })
-	modApi libs.bundles.quilt
-
-	modLocalRuntime libs.bundles.runtime
-}
-
-loom {
-	runs {
-		configureEach {
-			vmArg '-Dmixin.debug.export=true'
-		}
-	}
-}
-
-modrinth {
-	projectId = 'beelightful'
-	gameVersions = [
-		'1.17-pre1', '1.17-pre2', '1.17-pre3', '1.17-pre4', '1.17-pre5', '1.17-rc1', '1.17-rc2', '1.17', '1.17.1-pre1',
-		'1.17.1-pre2', '1.17.1-pre3', '1.17.1-rc1', '1.17.1-rc2', '1.17.1', '21w37a', '21w38a', '21w39a', '21w40a',
-		'21w41a', '21w42a', '21w43a', '21w44a', '1.18-pre1', '1.18-pre2', '1.18-pre3', '1.18-pre4', '1.18-pre5',
-		'1.18-pre6', '1.18-pre7', '1.18-pre8', '1.18-rc1', '1.18-rc2', '1.18-rc3', '1.18-rc4', '1.18', '1.18.1-pre1',
-		'1.18.1-rc1', '1.18.1-rc2', '1.18.1-rc3', '1.18.1', '22w03a', '22w05a', '22w06a', '22w07a', '1.18.2-pre1',
-		'1.18.2-pre2', '1.18.2-pre3', '1.18.2-rc1', '1.18.2', '22w11a', '22w12a', '22w13a', '22w13oneblockatatime',
-		'22w14a', '22w15a', '22w16a', '22w16b', '22w17a', '22w18a', '22w19a', '1.19-pre1', '1.19-pre2', '1.19-pre3',
-		'1.19-pre4', '1.19-pre5', '1.19-rc1', '1.19-rc2', '1.19', '22w24a', '1.19.1-pre1', '1.19.1-pre2', '1.19.1-pre3',
-		'1.19.1-pre4', '1.19.1-pre5', '1.19.1-pre6', '1.19.1-rc1', '1.19.1-rc2', '1.19.1-rc3', '1.19.1', '1.19.2-rc1',
-		'1.19.2-rc2', '1.19.2',
-	]
-	uploadFile = remapJar
-	additionalFiles = [remapSourcesJar]
-}
-
-tasks.withType(JavaCompile).configureEach {
-	it.options.encoding = 'UTF-8'
-	it.options.release = 17
-}
-
-java.withSourcesJar()
-jar.from('LICENSE')
+modrinth.gameVersions.addAll([
+	'1.17-pre1', '1.17-pre2', '1.17-pre3', '1.17-pre4', '1.17-pre5', '1.17-rc1', '1.17-rc2', '1.17', '1.17.1-pre1',
+	'1.17.1-pre2', '1.17.1-pre3', '1.17.1-rc1', '1.17.1-rc2', '1.17.1', '21w37a', '21w38a', '21w39a', '21w40a', '21w41a',
+	'21w42a', '21w43a', '21w44a', '1.18-pre1', '1.18-pre2', '1.18-pre3', '1.18-pre4', '1.18-pre5', '1.18-pre6',
+	'1.18-pre7', '1.18-pre8', '1.18-rc1', '1.18-rc2', '1.18-rc3', '1.18-rc4', '1.18', '1.18.1-pre1', '1.18.1-rc1',
+	'1.18.1-rc2', '1.18.1-rc3', '1.18.1', '22w03a', '22w05a', '22w06a', '22w07a', '1.18.2-pre1', '1.18.2-pre2',
+	'1.18.2-pre3', '1.18.2-rc1', '1.18.2', '22w11a', '22w12a', '22w13a', '22w13oneblockatatime', '22w14a', '22w15a',
+	'22w16a', '22w16b', '22w17a', '22w18a', '22w19a', '1.19-pre1', '1.19-pre2', '1.19-pre3', '1.19-pre4', '1.19-pre5',
+	'1.19-rc1', '1.19-rc2', '1.19', '22w24a', '1.19.1-pre1', '1.19.1-pre2', '1.19.1-pre3', '1.19.1-pre4', '1.19.1-pre5',
+	'1.19.1-pre6', '1.19.1-rc1', '1.19.1-rc2', '1.19.1-rc3', '1.19.1', '1.19.2-rc1', '1.19.2-rc2',
+])

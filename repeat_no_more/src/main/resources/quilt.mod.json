@@ -23,7 +23,7 @@
 		},
 		"intermediate_mappings": "net.fabricmc:intermediary",
 		"entrypoints": {
-			"client_init": "coffee.waffle.repeatnomore.RepeatNoMore"
+			"client_init": "com.emmacypress.repeat_no_more.RepeatNoMore"
 		},
 		"depends": [
 			"quilt_base",

@@ -49,10 +49,9 @@ subprojects {
 	}
 
 	modrinth {
-		debugMode = true
 		token = System.getenv().MODRINTH_TOKEN
 		projectId = project.name
-		gameVersions = ['1.19.2']
+		gameVersions = [libs.versions.minecraft.get()]
 		versionName = System.getenv().VERSION_NAME ?: version
 		changelog = System.getenv().CHANGELOG ?: DEFAULT_CHANGELOG
 		versionType = System.getenv().VERSION_TYPE ?: DEFAULT_VERSION_TYPE

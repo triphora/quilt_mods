@@ -12,6 +12,9 @@ pluginManagement {
 	}
 }
 
+include 'beelightful'
+include 'clean_logs'
+include 'compass_commands'
 include 'emmod'
 include 'only_pink_sheeps'
 include 'orientation'
