@@ -1,0 +1,59 @@
+plugins {
+	alias libs.plugins.quilt.loom
+	alias libs.plugins.minotaur
+}
+
+group = 'com.emmacypress'
+archivesBaseName = 'only_pink_sheeps'
+version = loom.modVersion
+
+repositories {
+	maven {
+		name = 'Modrinth'
+		url = 'https://api.modrinth.com/maven'
+	}
+	maven {
+		name = 'TerraformersMC'
+		url = 'https://maven.terraformersmc.com'
+	}
+	maven {
+		name = 'Auoeke'
+		url = 'https://maven.auoeke.net'
+	}
+}
+
+dependencies {
+	minecraft libs.minecraft
+	mappings(variantOf(libs.quilt.mappings) { classifier 'intermediary-v2' })
+	modApi libs.bundles.quilt
+
+	modLocalRuntime libs.bundles.runtime
+}
+
+loom {
+	runs {
+		configureEach {
+			vmArg '-Dmixin.debug.export=true'
+		}
+	}
+}
+
+modrinth {
+	projectId = 'only_pink_sheeps'
+	gameVersions = [
+		'22w14a', '22w15a', '22w16a', '22w16b', '22w17a', '22w18a', '22w19a', '1.19-pre1', '1.19-pre2', '1.19-pre3',
+		'1.19-pre4', '1.19-pre5', '1.19-rc1', '1.19-rc2', '1.19', '22w24a', '1.19.1-pre1', '1.19.1-pre2', '1.19.1-pre3',
+		'1.19.1-pre4', '1.19.1-pre5', '1.19.1-pre6', '1.19.1-rc1', '1.19.1-rc2', '1.19.1-rc3', '1.19.1', '1.19.2-rc1',
+		'1.19.2-rc2', '1.19.2',
+	]
+	uploadFile = remapJar
+	additionalFiles = [remapSourcesJar]
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.encoding = 'UTF-8'
+	it.options.release = 17
+}
+
+java.withSourcesJar()
+jar.from('LICENSE')
