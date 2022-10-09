@@ -51,7 +51,7 @@ license {
 }
 
 modrinth {
-  projectId = "AFqV4ew3"
+  projectId = "orientation"
   versionName = releaseTitle
   changelog = changeLog
   uploadFile = remapJar
