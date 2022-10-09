@@ -1,0 +1,36 @@
+[libraries]
+# https://lambdaurora.dev/tools/import_quilt.html
+minecraft = 'com.mojang:minecraft:1.19.2'
+quilt_mappings = 'org.quiltmc:quilt-mappings:1.19.2+build.19'
+quilt_loader = 'org.quiltmc:quilt-loader:0.17.4'
+quilted_fabric_api = 'org.quiltmc.quilted-fabric-api:quilted-fabric-api:4.0.0-beta.13+0.62.0-1.19.2'
+
+midnightlib = 'maven.modrinth:midnightlib:0.6.1'
+
+narrator_off = 'net.auoeke:narrator-off:0.0.1'
+no_auth = 'net.auoeke:noauth:0.0.1'
+sodium = 'maven.modrinth:sodium:mc1.19.2-0.4.4'
+joml = 'org.joml:joml:1.10.4'
+lithium = 'maven.modrinth:lithium:mc1.19.2-0.8.3'
+lazydfu = 'maven.modrinth:lazydfu:0.1.3'
+starlight = 'maven.modrinth:starlight:1.1.1+1.19'
+ferrite_core = 'maven.modrinth:ferrite-core:5.0.0-fabric'
+ebe = 'maven.modrinth:ebe:0.7.1+1.19'
+arrp = 'maven.modrinth:arrp:0.6.4'
+dynamic_fps = 'maven.modrinth:dynamic-fps:2.2.0'
+toml4j = 'com.moandjiezana.toml:toml4j:0.7.2'
+memory_leak_fix = 'maven.modrinth:memoryleakfix:v0.7.0'
+forget_me_chunk = 'maven.modrinth:forgetmechunk:1.0.4'
+mod_menu = 'com.terraformersmc:modmenu:4.0.6'
+
+[bundles]
+quilt = ['quilt_loader', 'quilted_fabric_api']
+runtime = [
+	'narrator_off', 'no_auth', 'sodium', 'joml', 'lithium', 'lazydfu', 'starlight', 'ferrite_core',
+	'ebe', 'arrp', 'dynamic_fps', 'toml4j', 'memory_leak_fix', 'forget_me_chunk', 'mod_menu'
+]
+
+[plugins]
+quilt_loom = 'org.quiltmc.loom:1.0.+'
+minotaur = 'com.modrinth.minotaur:2.+'
+machete = 'io.github.p03w.machete:1.+'

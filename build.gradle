@@ -1,0 +1,80 @@
+plugins {
+	alias libs.plugins.quilt.loom apply false
+	alias libs.plugins.minotaur
+	alias libs.plugins.machete
+}
+
+subprojects {
+	apply plugin: 'org.quiltmc.loom'
+	apply plugin: 'com.modrinth.minotaur'
+
+	repositories {
+		maven {
+			name = 'Modrinth'
+			url = 'https://api.modrinth.com/maven'
+		}
+		maven {
+			name = 'TerraformersMC'
+			url = 'https://maven.terraformersmc.com'
+		}
+		maven {
+			name = 'Auoeke'
+			url = 'https://maven.auoeke.net'
+		}
+	}
+
+	version = loom.modVersion
+
+	loom {
+		runtimeOnlyLog4j = true
+		runs {
+			configureEach {
+				vmArg '-Dmixin.debug.export=true'
+			}
+		}
+	}
+
+	tasks.named('prepareRemapJar') {
+		dependsOn {
+			tasks.named('optimizeOutputsOfJar')
+		}
+	}
+
+	dependencies {
+		minecraft libs.minecraft
+		mappings(variantOf(libs.quilt.mappings) { classifier 'intermediary-v2' })
+		modApi libs.bundles.quilt
+
+		modLocalRuntime libs.bundles.runtime
+	}
+
+	modrinth {
+		debugMode = true
+		token = System.getenv().MODRINTH_TOKEN
+		projectId = project.name
+		gameVersions = ['1.19.2']
+		versionName = System.getenv().VERSION_NAME ?: version
+		changelog = System.getenv().CHANGELOG ?: DEFAULT_CHANGELOG
+		versionType = System.getenv().VERSION_TYPE ?: DEFAULT_VERSION_TYPE
+		uploadFile = remapJar
+		additionalFiles = [remapSourcesJar]
+	}
+}
+
+allprojects {
+	apply plugin: 'java'
+	apply plugin: 'io.github.p03w.machete'
+
+	group = 'com.emmacypress'
+	archivesBaseName = project.name
+
+	tasks.withType(JavaCompile).configureEach {
+		it.options.encoding = 'UTF-8'
+		it.options.release = 17
+	}
+
+
+	java.withSourcesJar()
+
+	jar.from project.file('LICENSE').exists() ? project.file('LICENSE') : rootProject.file('LICENSE')
+}

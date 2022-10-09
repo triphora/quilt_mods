@@ -1,10 +1,10 @@
 {
 	"required": true,
 	"minVersion": "0.8",
-	"package": "com.emmacypress.only_pink_sheeps.mixin",
+	"package": "com.emmacypress.repeat_no_more.mixin",
 	"compatibilityLevel": "JAVA_17",
-	"server": [
-    "SheepEntityMixin"
+	"client": [
+		"RepeaterBlockMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

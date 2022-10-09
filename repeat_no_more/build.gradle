@@ -1,0 +1,4 @@
+dependencies {
+	modApi libs.midnightlib
+	include libs.midnightlib
+}

@@ -1,0 +1,53 @@
+name: Release
+on:
+  workflow_dispatch:
+    inputs:
+      project:
+        type: choice
+        description: Project to publish
+        required: true
+        options:
+          - beelightful
+          - clean_logs
+          - compass_commands
+          - only_pink_sheeps
+          - orientation
+          - repeat_no_more
+          - wake_up_time
+      version_name:
+        type: string
+        description: Modrinth version name to use
+        required: true
+      changelog:
+        type: string
+        description: Modrinth changelog to use
+        required: true
+      version_type:
+        type: choice
+        description: Modrinth version type to use
+        required: false
+        default: release
+        options:
+          - release
+          - beta
+          - alpha
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: adopt
+          java-version: 17
+      - uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: release-candidate
+          arguments: modrinth
+          cache-read-only: ${{ github.repository_owner != 'emmods' }}
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          VERSION_NAME: ${{ inputs.version_name }}
+          CHANGELOG: ${{ inputs.changelog }}
+          VERSION_TYPE: ${{ inputs.version_type }}

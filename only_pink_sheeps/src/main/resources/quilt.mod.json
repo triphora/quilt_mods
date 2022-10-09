@@ -30,6 +30,9 @@
 		]
 	},
 	"mixin": "only_pink_sheeps.mixins.json",
+	"minecraft": {
+		"environment": "server"
+	},
 	"modmenu": {
 		"links": {
 			"modmenu.buymeacoffee": "https://buymeacoff.ee/emmaffle",

@@ -1,0 +1,12 @@
+{
+	"wake_up_time.midnightconfig.title": "Wake Up Time",
+	"wake_up_time.category": "Wake Up Time",
+
+	"wake_up_time.send_status": "Показать статус жителей",
+	"wake_up_time.status": "§bСтатус жителей - %s",
+	"wake_up_time.lazy_bums": "%s§b; %s§a секунды§b до рабочего времени",
+	"wake_up_time.working": "§aработа§b; %s§a секунды§b до окончания рабочего дня",
+	"wake_up_time.sleeping": "§aсон",
+	"wake_up_time.gathering": "§aсбор",
+	"wake_up_time.wandering": "§aсвободное время"
+}

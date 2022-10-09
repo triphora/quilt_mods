@@ -1,6 +1,0 @@
-pluginManagement {
-  repositories {
-    maven { url = "https://maven.quiltmc.org/repository/release/" }
-    gradlePluginPortal()
-  }
-}
