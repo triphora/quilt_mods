@@ -13,7 +13,7 @@
     "sources": "https://github.com/wafflecoffee/repeat-no-more"
   },
 
-  "license": "Apache-2.0",
+  "license": "Zlib",
   "icon": "assets/repeat-no-more/icon.png",
 
   "environment": "client",

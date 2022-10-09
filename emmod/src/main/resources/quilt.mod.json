@@ -14,7 +14,7 @@
         "issues": "https://github.com/emmods/emmod/issues",
         "sources": "https://github.com/emmods/emmod"
       },
-      "license": "WTFPL"
+      "license": "Zlib"
     },
     "intermediate_mappings": "net.fabricmc:intermediary"
   },

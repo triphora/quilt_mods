@@ -18,7 +18,7 @@
 				"discord": "https://discord.gg/EES4w9qbtk",
 				"donate": "https://buymeacoff.ee/emmaffle"
 			},
-			"license": "zlib",
+			"license": "Zlib",
 			"icon": "assets/beelightful/icon.png"
 		},
 		"intermediate_mappings": "net.fabricmc:intermediary",

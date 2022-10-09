@@ -1,8 +1,14 @@
-.gradle
+### Build tool ###
+run/
 build/
+
+### Gradle ###
+.gradle
 !**/src/main/**/build/
 !**/src/test/**/build/
-run/
+
+### Brachyura ###
+.brachyura/
 
 ### IntelliJ IDEA ###
 .idea/

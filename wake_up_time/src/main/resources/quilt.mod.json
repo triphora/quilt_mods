@@ -16,7 +16,7 @@
         "sources": "https://github.com/emmods/wake-up-time",
         "name-credits": "https://www.youtube.com/watch?v=nS2C8BmHP-c"
       },
-      "license": "Apache-2.0",
+      "license": "Zlib",
       "icon": "assets/wake-up-time/icon.png"
     },
     "intermediate_mappings": "net.fabricmc:intermediary",

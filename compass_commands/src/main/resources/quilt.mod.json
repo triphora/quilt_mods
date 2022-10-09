@@ -15,7 +15,7 @@
         "issues": "https://github.com/emmods/compass-commands/issues",
         "sources": "https://github.com/emmods/compass-commands"
       },
-      "license": "Apache-2.0",
+      "license": "Zlib",
       "icon": "assets/compass-commands/icon.gif"
     },
     "intermediate_mappings": "net.fabricmc:intermediary",

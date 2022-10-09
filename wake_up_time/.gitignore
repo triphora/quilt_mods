@@ -1,8 +1,0 @@
-build/
-.brachyura/
-.idea/
-*.iml
-*.ipr
-*.iws
-run/
-!run/options.txt
