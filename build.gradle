@@ -1,3 +1,5 @@
+import com.modrinth.minotaur.dependencies.ModDependency
+
 plugins {
 	alias libs.plugins.quilt.loom apply false
 	alias libs.plugins.minotaur
@@ -26,7 +28,7 @@ subprojects {
 	version = loom.modVersion
 
 	loom {
-		runtimeOnlyLog4j = true
+		runtimeOnlyLog4j = project.name != 'clean_logs'
 		runs {
 			configureEach {
 				vmArg '-Dmixin.debug.export=true'
@@ -46,17 +48,54 @@ subprojects {
 		modApi libs.bundles.quilt
 
 		modLocalRuntime libs.bundles.runtime
+
+		if (project.hasProperty('midnightlib')) {
+			modApi libs.midnightlib
+			include libs.midnightlib
+		}
 	}
 
 	modrinth {
-		token = System.getenv().MODRINTH_TOKEN
-		projectId = project.name
+		projectId = project.findProperty('modrinth_slug') ?: project.name
 		gameVersions = [libs.versions.minecraft.get()]
-		versionName = System.getenv().VERSION_NAME ?: version
+		versionName = System.getenv().VERSION_NAME ?: versionNumber
 		changelog = System.getenv().CHANGELOG ?: DEFAULT_CHANGELOG
 		versionType = System.getenv().VERSION_TYPE ?: DEFAULT_VERSION_TYPE
 		uploadFile = remapJar
 		additionalFiles = [remapSourcesJar]
+		syncBodyFrom = project.file('README.md').text +
+			'\n' + rootProject.file('COMMON.md').text
+	}
+
+	tasks.modrinth.doFirst {
+		if (project.hasProperty('additional_game_versions')) {
+			project.additional_game_versions.split(', ').each {
+				modrinth.gameVersions.add it
+			}
+		}
+
+		['required', 'optional', 'incompatible', 'embedded'].each { String type ->
+			if (project.hasProperty("${type}_dependencies")) {
+				project."${type}_dependencies".split(', ').each { String dep ->
+					modrinth.dependencies.add new ModDependency(dep, type)
+				}
+			}
+		}
+
+		if (project.hasProperty('midnightlib')) {
+			modrinth.dependencies {
+				embedded.project 'midnightlib'
+				required.project 'qsl'
+				optional.project 'modmenu'
+			}
+		}
+	}
+
+	tasks.modrinth.dependsOn tasks.modrinthSyncBody
+
+	if (project.hasProperty('no_modrinth')) {
+		tasks.modrinth.enabled = false
+		tasks.modrinthSyncBody.enabled = false
 	}
 }
 
@@ -67,10 +106,12 @@ allprojects {
 	group = 'com.emmacypress'
 	archivesBaseName = project.name
 
+	int javaVersion = Integer.parseInt(project.findProperty('java_version') ?: '17')
+
 	tasks.withType(JavaCompile).configureEach {
 		it.options.encoding = 'UTF-8'
-		it.options.release = 17
-		it.sourceCompatibility = 17
+		it.options.release = javaVersion
+		it.sourceCompatibility = javaVersion
 	}
 
 	java.withSourcesJar()
