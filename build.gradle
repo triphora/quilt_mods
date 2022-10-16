@@ -83,11 +83,11 @@ subprojects {
 		}
 
 		if (project.hasProperty('midnightlib')) {
-			modrinth.dependencies {
-				embedded.project 'midnightlib'
-				required.project 'qsl'
-				optional.project 'modmenu'
-			}
+			modrinth.dependencies.addAll [
+				new ModDependency('midnightlib', 'embedded'),
+				new ModDependency('qsl', 'required'),
+				new ModDependency('modmenu', 'optional'),
+			]
 		}
 	}
 
