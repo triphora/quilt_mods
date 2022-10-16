@@ -29,8 +29,9 @@ mod_menu = 'com.terraformersmc:modmenu:4.0.6'
 [bundles]
 quilt = ['quilt_loader', 'quilted_fabric_api']
 runtime = [
-	'narrator_off', 'no_auth', 'sodium', 'joml', 'lithium', 'lazydfu', 'starlight', 'ferrite_core',
-	'ebe', 'arrp', 'dynamic_fps', 'toml4j', 'memory_leak_fix', 'forget_me_chunk', 'mod_menu'
+	# TODO readd Starlight and EBE
+	'narrator_off', 'no_auth', 'sodium', 'joml', 'lithium', 'lazydfu', 'ferrite_core',
+	'arrp', 'dynamic_fps', 'toml4j', 'memory_leak_fix', 'forget_me_chunk', 'mod_menu'
 ]
 
 [plugins]

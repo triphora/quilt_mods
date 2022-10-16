@@ -13,12 +13,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(BeeEntity.class)
-public class BeeEntityMixin {
+abstract class BeeEntityMixin {
 	private static final String DESCRIPTOR = "Lnet/minecraft/entity/LivingEntity;addStatusEffect" +
 		"(Lnet/minecraft/entity/effect/StatusEffectInstance;Lnet/minecraft/entity/Entity;)Z";
 
 	@Redirect(method = "tryAttack", at = @At(value = "INVOKE", target = DESCRIPTOR))
-	private boolean beelightful$modifyBeeSting(LivingEntity target, StatusEffectInstance effect, Entity source) {
+	boolean beelightful$modifyBeeSting(LivingEntity target, StatusEffectInstance effect, Entity source) {
 		int difficulty = effect.getDuration() / 20;
 		boolean normalMode = difficulty == 10;
 		boolean hardMode = difficulty == 18;
