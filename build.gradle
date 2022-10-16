@@ -42,6 +42,8 @@ subprojects {
 		}
 	}
 
+	java.withSourcesJar()
+
 	dependencies {
 		minecraft libs.minecraft
 		mappings(variantOf(libs.quilt.mappings) { classifier 'intermediary-v2' })
@@ -62,7 +64,7 @@ subprojects {
 		changelog = System.getenv().CHANGELOG ?: DEFAULT_CHANGELOG
 		versionType = System.getenv().VERSION_TYPE ?: DEFAULT_VERSION_TYPE
 		uploadFile = remapJar
-		additionalFiles = [remapSourcesJar]
+		additionalFiles = [sourcesJar]
 		syncBodyFrom = project.file('README.md').text +
 			'\n' + rootProject.file('COMMON.md').text
 	}
@@ -113,8 +115,6 @@ allprojects {
 		it.options.release = javaVersion
 		it.sourceCompatibility = javaVersion
 	}
-
-	java.withSourcesJar()
 
 	jar.from project.file('LICENSE').exists() ? project.file('LICENSE') : rootProject.file('LICENSE')
 }
