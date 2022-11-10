@@ -1,0 +1,10 @@
+import com.emmacypress.gradle.QuiltModJson.QuiltLoader
+
+version = '0.1.1-SNAPSHOT'
+outlet.mcVersionRange = '>=1.17-pre1'
+
+emmod {
+	summary = 'Making bee stings more realistic since 2022.'
+	gameVersions = outlet.mcVersions()
+	depends.add new QuiltLoader.Dependency('minecraft', '>=1.17-pre1')
+}

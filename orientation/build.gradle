@@ -1,0 +1,22 @@
+import com.emmacypress.gradle.QuiltModJson
+import com.emmacypress.gradle.Side
+
+version = '3.0.1'
+
+emmod {
+	midnightlib = true
+	mixin = false
+	summary = 'Snaps the player direction to cardinal directions.'
+	spdx = 'MIT'
+	side = Side.CLIENT
+	depends = [
+		new QuiltModJson.QuiltLoader.Dependency('quilt_base'),
+		new QuiltModJson.QuiltLoader.Dependency('quilt_client_command'),
+		new QuiltModJson.QuiltLoader.Dependency('quilt_lifecycle_events'),
+	]
+	contributors = ['TheCritic': 'Former Author']
+	entrypoints = [
+		'client_init': 'com.emmacypress.orientation.Orientation',
+		'client_events': 'com.emmacypress.orientation.Orientation'
+	]
+}

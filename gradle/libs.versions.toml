@@ -6,7 +6,7 @@ minecraft = '1.19.2'
 minecraft = { module = 'com.mojang:minecraft', version.ref = 'minecraft' }
 quilt_mappings = 'org.quiltmc:quilt-mappings:1.19.2+build.21'
 quilt_loader = 'org.quiltmc:quilt-loader:0.17.6'
-quilted_fabric_api = 'org.quiltmc.quilted-fabric-api:quilted-fabric-api:4.0.0-beta.17+0.64.0-1.19.2'
+quilted_fabric_api = 'org.quiltmc.quilted-fabric-api:quilted-fabric-api:4.0.0-beta.19+0.64.0-1.19.2'
 
 midnightlib = 'maven.modrinth:midnightlib:0.6.1'
 
@@ -24,11 +24,11 @@ dynamic_fps = 'maven.modrinth:dynamic-fps:2.2.0'
 toml4j = 'com.moandjiezana.toml:toml4j:0.7.2'
 memory_leak_fix = 'maven.modrinth:memoryleakfix:v0.7.0'
 forget_me_chunk = 'maven.modrinth:forgetmechunk:1.0.4'
-mod_menu = 'com.terraformersmc:modmenu:4.0.6'
+mod_menu = 'com.terraformersmc:modmenu:4.1.0'
 
 [bundles]
-quilt = ['quilt_loader', 'quilted_fabric_api']
 runtime = [
+	'quilted_fabric_api',
 	'narrator_off', 'no_auth', 'sodium', 'joml', 'lithium', 'lazydfu', 'starlight', 'ferrite_core',
 	'ebe', 'arrp', 'dynamic_fps', 'toml4j', 'memory_leak_fix', 'forget_me_chunk', 'mod_menu'
 ]
@@ -37,3 +37,4 @@ runtime = [
 quilt_loom = 'org.quiltmc.loom:1.0.+'
 minotaur = 'com.modrinth.minotaur:2.+'
 machete = 'io.github.p03w.machete:1.+'
+outlet = 'io.github.dexman545.outlet:1.5.+'

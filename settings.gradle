@@ -1,12 +1,26 @@
 pluginManagement {
 	repositories {
-		maven {
-			name = 'Quilt'
-			url = 'https://maven.quiltmc.org/repository/release'
+		exclusiveContent {
+			forRepository {
+				maven {
+					name = 'Quilt'
+					url = 'https://maven.quiltmc.org/repository/release'
+				}
+			}
+			filter {
+				includeGroupByRegex 'org.quiltmc(.*)?'
+			}
 		}
-		maven {
-			name = 'Fabric'
-			url = 'https://maven.fabricmc.net'
+		exclusiveContent {
+			forRepository {
+				maven {
+					name = 'Fabric'
+					url = 'https://maven.fabricmc.net'
+				}
+			}
+			filter {
+				includeGroup 'net.fabricmc'
+			}
 		}
 		gradlePluginPortal()
 	}

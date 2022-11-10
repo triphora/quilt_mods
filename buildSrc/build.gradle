@@ -1,0 +1,15 @@
+plugins {
+	id 'java'
+	id 'idea'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.jetbrains:annotations:23.0.0'
+	implementation 'org.apache.commons:commons-text:1.10.0'
+	implementation 'com.google.code.gson:gson:2.10'
+	implementation annotationProcessor('org.projectlombok:lombok:1.18.24')
+}

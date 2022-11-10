@@ -1,9 +1,9 @@
 {
-	"orientation.midnightconfig.title": "Critical Orientation",
+	"orientation.midnightconfig.title": "Orientation Config",
 	"orientation.midnightconfig.comment": "To use negative values, take the absolute value and subtract that from 360. For example, -160 becomes 200.",
 	"orientation.midnightconfig.customAlignment": "Configurable direction value",
 
-	"orientation.category": "Critical Orientation",
+	"orientation.category": "Orientation",
 	"orientation.align": "Snap to direction",
 	"orientation.align_configurable": "Snap to configurable direction",
 

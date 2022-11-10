@@ -1,0 +1,20 @@
+import com.emmacypress.gradle.QuiltModJson
+
+version = '1.1.0'
+
+emmod {
+	qsl = true
+	mixin = false
+	summary = 'Adds some commands for setting the compass target.'
+	modrinthSlug = 'compass-commands'
+	depends = [
+		new QuiltModJson.QuiltLoader.Dependency('quilt_base'),
+		new QuiltModJson.QuiltLoader.Dependency('quilt_resource_loader'),
+		new QuiltModJson.QuiltLoader.Dependency('quilt_command'),
+		new QuiltModJson.QuiltLoader.Dependency('quilt_client_command', '*', 'Client-side-only commands', 'client', false),
+	]
+	entrypoints = [
+		'client_events': 'com.emmacypress.compass_commands.CompassCommandsClient',
+		'server_events': 'com.emmacypress.compass_commands.CompassCommandsServer',
+	]
+}

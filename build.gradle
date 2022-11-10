@@ -1,31 +1,61 @@
-import com.modrinth.minotaur.dependencies.ModDependency
+import com.emmacypress.gradle.ConfigurationExtension
+import com.emmacypress.gradle.Constants
+import com.emmacypress.gradle.MixinsJsonGenerator
+import com.emmacypress.gradle.QuiltModJsonGenerator
 
 plugins {
 	alias libs.plugins.quilt.loom apply false
-	alias libs.plugins.minotaur
-	alias libs.plugins.machete
+	alias libs.plugins.minotaur apply false
+	alias libs.plugins.machete apply false
+	alias libs.plugins.outlet apply false
 }
 
 subprojects {
+	apply plugin: 'java'
 	apply plugin: 'org.quiltmc.loom'
 	apply plugin: 'com.modrinth.minotaur'
+	apply plugin: 'io.github.p03w.machete'
+	apply plugin: 'io.github.dexman545.outlet'
+
+	group = Constants.GROUP
+	archivesBaseName = project.name
 
 	repositories {
-		maven {
-			name = 'Modrinth'
-			url = 'https://api.modrinth.com/maven'
+		exclusiveContent {
+			forRepository {
+				maven {
+					name = 'Modrinth'
+					url = 'https://api.modrinth.com/maven'
+				}
+			}
+			filter {
+				includeGroup 'maven.modrinth'
+			}
 		}
-		maven {
-			name = 'TerraformersMC'
-			url = 'https://maven.terraformersmc.com'
+		exclusiveContent {
+			forRepository {
+				maven {
+					name = 'TerraformersMC'
+					url = 'https://maven.terraformersmc.com'
+				}
+			}
+			filter {
+				includeGroup 'com.terraformersmc'
+			}
 		}
-		maven {
-			name = 'Auoeke'
-			url = 'https://maven.auoeke.net'
+		exclusiveContent {
+			forRepository {
+				maven {
+					name = 'Auoeke'
+					url = 'https://maven.auoeke.net'
+				}
+			}
+			filter {
+				includeGroup 'net.auoeke'
+				includeGroup 'net.gudenau.lib'
+			}
 		}
 	}
-
-	version = loom.modVersion
 
 	loom {
 		runtimeOnlyLog4j = project.name != 'clean_logs'
@@ -47,68 +77,45 @@ subprojects {
 	dependencies {
 		minecraft libs.minecraft
 		mappings(variantOf(libs.quilt.mappings) { classifier 'intermediary-v2' })
-		modApi libs.bundles.quilt
+		modApi libs.quilt.loader
 
 		modLocalRuntime libs.bundles.runtime
+	}
 
-		if (project.hasProperty('midnightlib')) {
+	extensions.create('emmod', ConfigurationExtension.class, project)
+	task generateResources {
+		doLast {
+			new MixinsJsonGenerator().create(project)
+			new QuiltModJsonGenerator().create(project)
+		}
+		outputs.dir('build/generated/resources')
+	}
+
+	sourcesJar.dependsOn generateResources
+	prepareRemapJar.dependsOn generateResources
+
+	sourceSets {
+		main {
+			resources {
+				srcDir generateResources
+			}
+		}
+	}
+
+	if (emmod.qsl || emmod.midnightlib) {
+		dependencies {
+			modApi libs.quilted.fabric.api
+		}
+	}
+
+	if (emmod.midnightlib) {
+		dependencies {
 			modApi libs.midnightlib
 			include libs.midnightlib
 		}
 	}
 
-	modrinth {
-		projectId = project.findProperty('modrinth_slug') ?: project.name
-		gameVersions = [libs.versions.minecraft.get()]
-		versionName = System.getenv().VERSION_NAME ?: versionNumber
-		changelog = System.getenv().CHANGELOG ?: DEFAULT_CHANGELOG
-		versionType = System.getenv().VERSION_TYPE ?: DEFAULT_VERSION_TYPE
-		uploadFile = remapJar
-		additionalFiles = [sourcesJar]
-		syncBodyFrom = project.file('README.md').text +
-			'\n' + rootProject.file('COMMON.md').text
-	}
-
-	tasks.modrinth.doFirst {
-		if (project.hasProperty('additional_game_versions')) {
-			project.additional_game_versions.split(', ').each {
-				modrinth.gameVersions.add it
-			}
-		}
-
-		['required', 'optional', 'incompatible', 'embedded'].each { String type ->
-			if (project.hasProperty("${type}_dependencies")) {
-				project."${type}_dependencies".split(', ').each { String dep ->
-					modrinth.dependencies.add new ModDependency(dep, type)
-				}
-			}
-		}
-
-		if (project.hasProperty('midnightlib')) {
-			modrinth.dependencies.addAll [
-				new ModDependency('midnightlib', 'embedded'),
-				new ModDependency('qsl', 'required'),
-				new ModDependency('modmenu', 'optional'),
-			]
-		}
-	}
-
-	tasks.modrinth.dependsOn tasks.modrinthSyncBody
-
-	if (project.hasProperty('no_modrinth')) {
-		tasks.modrinth.enabled = false
-		tasks.modrinthSyncBody.enabled = false
-	}
-}
-
-allprojects {
-	apply plugin: 'java'
-	apply plugin: 'io.github.p03w.machete'
-
-	group = 'com.emmacypress'
-	archivesBaseName = project.name
-
-	int javaVersion = Integer.parseInt(project.findProperty('java_version') ?: '17')
+	int javaVersion = emmod.javaVersion.orNull ?: 17
 
 	tasks.withType(JavaCompile).configureEach {
 		it.options.encoding = 'UTF-8'
@@ -117,4 +124,43 @@ allprojects {
 	}
 
 	jar.from project.file('LICENSE').exists() ? project.file('LICENSE') : rootProject.file('LICENSE')
+
+	modrinth {
+		debugMode = true
+		projectId = emmod.modrinthSlug.orElse project.name
+		gameVersions = [libs.versions.minecraft.get()]
+		versionName = System.getenv().VERSION_NAME ?: versionNumber
+		changelog = System.getenv().CHANGELOG ?: DEFAULT_CHANGELOG
+		versionType = System.getenv().VERSION_TYPE ?: DEFAULT_VERSION_TYPE
+		uploadFile = remapJar
+		additionalFiles = [sourcesJar]
+		syncBodyFrom = project.file('README.md').text + '\n' +
+			(emmod.qsl || emmod.midnightlib ? rootProject.file('QSL.md').text : '') +
+			'\n' + rootProject.file('COMMON.md').text
+	}
+
+	tasks.modrinth.doFirst {
+		if (emmod.gameVersions) {
+			modrinth.gameVersions = emmod.gameVersions
+		}
+
+		if (emmod.qsl || emmod.midnightlib) {
+			modrinth {
+				dependencies {
+					required.project 'qsl'
+				}
+			}
+		}
+
+		if (emmod.midnightlib) {
+			modrinth {
+				dependencies {
+					embedded.project 'midnightlib'
+					optional.project 'modmenu'
+				}
+			}
+		}
+	}
+
+	tasks.modrinth.dependsOn tasks.modrinthSyncBody
 }

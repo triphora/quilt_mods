@@ -1,0 +1,11 @@
+import com.emmacypress.gradle.Side
+
+version = '1.0.0'
+
+emmod {
+	summary = 'A mod which should only be used by Emma.'
+	side = Side.CLIENT
+}
+
+tasks.modrinth.enabled = false
+tasks.modrinthSyncBody.enabled = false

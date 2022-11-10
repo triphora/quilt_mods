@@ -1,0 +1,23 @@
+import com.emmacypress.gradle.QuiltModJson
+import com.emmacypress.gradle.Side
+
+version = '1.2.0'
+
+emmod {
+	midnightlib = true
+	mixin = false
+	summary = 'Figure out what stage of the day your villagers are in.'
+	modrinthSlug = 'wake-up-time'
+	side = Side.CLIENT
+	depends = [
+		new QuiltModJson.QuiltLoader.Dependency('quilt_base'),
+		new QuiltModJson.QuiltLoader.Dependency('quilt_lifecycle_events'),
+		new QuiltModJson.QuiltLoader.Dependency('quilt_resource_loader'),
+		new QuiltModJson.QuiltLoader.Dependency('quilted_fabric_key_binding_api_v1'),
+	]
+	entrypoints = [
+		'client_init': 'com.emmacypress.wake_up_time.WakeUpTime',
+		'client_events': 'com.emmacypress.wake_up_time.WakeUpTime',
+	]
+	modMenuLinks = ['wake_up_time.name_credits': 'https://youtu.be/nS2C8BmHP-c']
+}

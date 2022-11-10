@@ -1,0 +1,24 @@
+import com.emmacypress.gradle.QuiltModJson
+import com.emmacypress.gradle.Side
+
+version = '2.0.0'
+
+outlet {
+	mcVersionRange = '>=1.19'
+	allowSnapshotsForProject = false
+}
+
+emmod {
+	midnightlib = true
+	summary = "Make it so that you can't tick a repeater no mo' once it reaches full delay."
+	modrinthSlug = 'repeat-no-more'
+	side = Side.CLIENT
+	gameVersions = outlet.mcVersions()
+	depends = [
+		new QuiltModJson.QuiltLoader.Dependency('quilt_base'),
+		new QuiltModJson.QuiltLoader.Dependency('quilt_resource_loader'),
+	]
+	entrypoints = [
+		'client_init': 'com.emmacypress.repeat_no_more.RepeatNoMore',
+	]
+}

@@ -1,0 +1,14 @@
+import com.emmacypress.gradle.QuiltModJson
+import com.emmacypress.gradle.Side
+
+version = '1.0.0'
+outlet.mcVersionRange = '>=1.19-alpha.22.14.a'
+
+emmod {
+	summary = 'Never encounter any other sheep colour in nature, ever again.'
+	side = Side.DEDICATED_SERVER
+	gameVersions = outlet.mcVersions()
+	depends = [
+		new QuiltModJson.QuiltLoader.Dependency('minecraft', '>=1.19-alpha.22.14.a'),
+	]
+}
