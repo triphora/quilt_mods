@@ -1,4 +1,4 @@
-import com.emmacypress.gradle.QuiltModJson
+import dev.triphora.gradle.QuiltModJson
 
 version = '1.2.0'
 
@@ -19,6 +19,6 @@ emmod {
 	)]
 	contributors = ['Bravarly': 'Former Author']
 	entrypoints = [
-		"pre_launch": "com.emmacypress.clean_logs.CleanLogs",
+		"pre_launch": "dev.triphora.clean_logs.CleanLogs",
 	]
 }

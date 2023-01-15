@@ -1,4 +1,4 @@
-import com.emmacypress.gradle.Side
+import dev.triphora.gradle.Side
 
 version = '1.0.0'
 

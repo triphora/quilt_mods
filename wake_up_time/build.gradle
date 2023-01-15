@@ -1,5 +1,5 @@
-import com.emmacypress.gradle.QuiltModJson
-import com.emmacypress.gradle.Side
+import dev.triphora.gradle.QuiltModJson
+import dev.triphora.gradle.Side
 
 version = '1.2.0'
 
@@ -16,8 +16,8 @@ emmod {
 		new QuiltModJson.QuiltLoader.Dependency('quilted_fabric_key_binding_api_v1'),
 	]
 	entrypoints = [
-		'client_init': 'com.emmacypress.wake_up_time.WakeUpTime',
-		'client_events': 'com.emmacypress.wake_up_time.WakeUpTime',
+		'client_init': 'dev.triphora.wake_up_time.WakeUpTime',
+		'client_events': 'dev.triphora.wake_up_time.WakeUpTime',
 	]
 	modMenuLinks = ['wake_up_time.name_credits': 'https://youtu.be/nS2C8BmHP-c']
 }

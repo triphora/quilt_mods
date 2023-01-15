@@ -1,7 +1,7 @@
-import com.emmacypress.gradle.ConfigurationExtension
-import com.emmacypress.gradle.Constants
-import com.emmacypress.gradle.MixinsJsonGenerator
-import com.emmacypress.gradle.QuiltModJsonGenerator
+import dev.triphora.gradle.ConfigurationExtension
+import dev.triphora.gradle.Constants
+import dev.triphora.gradle.MixinsJsonGenerator
+import dev.triphora.gradle.QuiltModJsonGenerator
 
 plugins {
 	alias libs.plugins.quilt.loom apply false

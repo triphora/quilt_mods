@@ -1,5 +1,5 @@
-import com.emmacypress.gradle.QuiltModJson
-import com.emmacypress.gradle.Side
+import dev.triphora.gradle.QuiltModJson
+import dev.triphora.gradle.Side
 
 version = '3.0.1'
 
@@ -16,7 +16,7 @@ emmod {
 	]
 	contributors = ['TheCritic': 'Former Author']
 	entrypoints = [
-		'client_init': 'com.emmacypress.orientation.Orientation',
-		'client_events': 'com.emmacypress.orientation.Orientation'
+		'client_init': 'dev.triphora.orientation.Orientation',
+		'client_events': 'dev.triphora.orientation.Orientation'
 	]
 }

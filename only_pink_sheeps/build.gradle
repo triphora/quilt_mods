@@ -1,5 +1,5 @@
-import com.emmacypress.gradle.QuiltModJson
-import com.emmacypress.gradle.Side
+import dev.triphora.gradle.QuiltModJson
+import dev.triphora.gradle.Side
 
 version = '1.0.0'
 outlet.mcVersionRange = '>=1.19-alpha.22.14.a'

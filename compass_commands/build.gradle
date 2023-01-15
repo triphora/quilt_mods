@@ -1,4 +1,4 @@
-import com.emmacypress.gradle.QuiltModJson
+import dev.triphora.gradle.QuiltModJson
 
 version = '1.1.0'
 
@@ -14,7 +14,7 @@ emmod {
 		new QuiltModJson.QuiltLoader.Dependency('quilt_client_command', '*', 'Client-side-only commands', 'client', false),
 	]
 	entrypoints = [
-		'client_events': 'com.emmacypress.compass_commands.CompassCommandsClient',
-		'server_events': 'com.emmacypress.compass_commands.CompassCommandsServer',
+		'client_events': 'dev.triphora.compass_commands.CompassCommandsClient',
+		'server_events': 'dev.triphora.compass_commands.CompassCommandsServer',
 	]
 }

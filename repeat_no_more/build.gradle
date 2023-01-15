@@ -1,5 +1,5 @@
-import com.emmacypress.gradle.QuiltModJson
-import com.emmacypress.gradle.Side
+import dev.triphora.gradle.QuiltModJson
+import dev.triphora.gradle.Side
 
 version = '2.0.0'
 
@@ -19,6 +19,6 @@ emmod {
 		new QuiltModJson.QuiltLoader.Dependency('quilt_resource_loader'),
 	]
 	entrypoints = [
-		'client_init': 'com.emmacypress.repeat_no_more.RepeatNoMore',
+		'client_init': 'dev.triphora.repeat_no_more.RepeatNoMore',
 	]
 }

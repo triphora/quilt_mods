@@ -1,4 +1,4 @@
-import com.emmacypress.gradle.QuiltModJson.QuiltLoader
+import dev.triphora.gradle.QuiltModJson.QuiltLoader
 
 version = '0.1.1-SNAPSHOT'
 outlet.mcVersionRange = '>=1.17-pre1'
