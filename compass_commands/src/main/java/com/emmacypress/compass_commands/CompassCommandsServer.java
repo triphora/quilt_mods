@@ -1,6 +1,7 @@
 package com.emmacypress.compass_commands;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import net.minecraft.command.CommandBuildContext;
 import net.minecraft.command.argument.BlockPosArgumentType;
@@ -26,26 +27,26 @@ public class CompassCommandsServer implements CommandRegistrationCallback {
 				.then(CommandManager.argument("pos", BlockPosArgumentType.blockPos())
 					.executes(c -> setTarget(c.getArgument("pos", DefaultPosArgument.class)
 						.toAbsolutePos(c.getSource()), c.getSource().getPlayer()))))
-			.then(literal("north").executes(c -> setTarget(0, -LIMIT, c.getSource().getPlayer())))
-			.then(literal("south").executes(c -> setTarget(0, LIMIT, c.getSource().getPlayer())))
-			.then(literal("east").executes(c -> setTarget(LIMIT, 0, c.getSource().getPlayer())))
-			.then(literal("west").executes(c -> setTarget(-LIMIT, 0, c.getSource().getPlayer())))
-			.then(literal("northwest").executes(c -> setTarget(-LIMIT, -LIMIT, c.getSource().getPlayer())))
-			.then(literal("northeast").executes(c -> setTarget(LIMIT, -LIMIT, c.getSource().getPlayer())))
-			.then(literal("southwest").executes(c -> setTarget(-LIMIT, LIMIT, c.getSource().getPlayer())))
-			.then(literal("southeast").executes(c -> setTarget(LIMIT, LIMIT, c.getSource().getPlayer())))
+			.then(fixedLocation("north", 0, -LIMIT))
+			.then(fixedLocation("south", 0, LIMIT))
+			.then(fixedLocation("east", LIMIT, 0))
+			.then(fixedLocation("west", -LIMIT, 0))
+			.then(fixedLocation("northwest", -LIMIT, -LIMIT))
+			.then(fixedLocation("northeast", LIMIT, -LIMIT))
+			.then(fixedLocation("southwest", -LIMIT, LIMIT))
+			.then(fixedLocation("southeast", LIMIT, LIMIT))
 			.then(literal("spawn").executes(c -> setTarget(c.getSource().getPlayer().getSpawnPointPosition(), c.getSource().getPlayer())))
 			.then(literal("current").executes(c -> setTarget(c.getSource().getPlayer().getPos(), c.getSource().getPlayer())))
 		);
 		dispatcher.register(literal("comp").redirect(compassCommand));
 	}
 
-	private static int setTarget(Vec3d vec, ServerPlayerEntity player) {
-		return setTarget(new BlockPos(vec), player);
+	private static LiteralArgumentBuilder<ServerCommandSource> fixedLocation(String command, int x, int z) {
+		return literal(command).executes(c -> setTarget(new BlockPos(x, 64, z), c.getSource().getPlayer()));
 	}
 
-	private static int setTarget(int x, int z, ServerPlayerEntity player) {
-		return setTarget(new BlockPos(x, 64, z), player);
+	private static int setTarget(Vec3d vec, ServerPlayerEntity player) {
+		return setTarget(new BlockPos(vec), player);
 	}
 
 	private static int setTarget(BlockPos pos, ServerPlayerEntity player) {

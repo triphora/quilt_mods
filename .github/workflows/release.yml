@@ -21,7 +21,7 @@ on:
       changelog:
         type: string
         description: Modrinth changelog to use
-        required: true
+        required: false
       version_type:
         type: choice
         description: Modrinth version type to use
@@ -42,7 +42,7 @@ jobs:
           java-version: 17
       - uses: gradle/gradle-build-action@v2
         with:
-          gradle-version: release-candidate
+          gradle-version: 7.6
           arguments: ${{ inputs.project }}:modrinth
           cache-read-only: ${{ github.repository_owner != 'emmods' }}
         env:

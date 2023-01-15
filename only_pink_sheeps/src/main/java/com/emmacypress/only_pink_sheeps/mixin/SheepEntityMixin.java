@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 @Mixin(SheepEntity.class)
 abstract class SheepEntityMixin {
 	/**
-	 * @author Emmaffle
+	 * @author triphora
 	 * @reason Always make sheep pink!
 	 */
 	@Overwrite

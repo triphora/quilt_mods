@@ -20,39 +20,24 @@ subprojects {
 	group = Constants.GROUP
 	archivesBaseName = project.name
 
-	repositories {
-		exclusiveContent {
-			forRepository {
-				maven {
-					name = 'Modrinth'
-					url = 'https://api.modrinth.com/maven'
+	[
+		['Modrinth', 'api.modrinth.com/maven', ['maven.modrinth']],
+		['TerraformersMC', 'maven.terraformersmc.com', ['com.terraformersmc']],
+		['Auoeke', 'maven.auoeke.net', ['net.auoeke', 'net.gudenau.lib']],
+	].forEach { var mavenInfo ->
+		repositories {
+			exclusiveContent {
+				forRepository {
+					maven {
+						name = mavenInfo[0]
+						url = 'https://' + mavenInfo[1]
+					}
 				}
-			}
-			filter {
-				includeGroup 'maven.modrinth'
-			}
-		}
-		exclusiveContent {
-			forRepository {
-				maven {
-					name = 'TerraformersMC'
-					url = 'https://maven.terraformersmc.com'
+				filter {
+					mavenInfo[2].forEach { String group ->
+						includeGroup group
+					}
 				}
-			}
-			filter {
-				includeGroup 'com.terraformersmc'
-			}
-		}
-		exclusiveContent {
-			forRepository {
-				maven {
-					name = 'Auoeke'
-					url = 'https://maven.auoeke.net'
-				}
-			}
-			filter {
-				includeGroup 'net.auoeke'
-				includeGroup 'net.gudenau.lib'
 			}
 		}
 	}
