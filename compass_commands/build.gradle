@@ -1,6 +1,6 @@
 import dev.triphora.gradle.QuiltModJson
 
-version = '1.1.0'
+version = '1.1.1'
 
 emmod {
 	qsl = true

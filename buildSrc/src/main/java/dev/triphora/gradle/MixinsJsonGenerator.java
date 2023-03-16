@@ -46,10 +46,10 @@ public class MixinsJsonGenerator implements Generator {
 			// ignore
 		}
 
-		Generator.writeFinalResult(
-			project,
-			project.getName() + ".mixins.json",
-			new MixinsJson(mixinPackage, mixins, client, server)
-		);
+		var json = new MixinsJson(mixinPackage, mixins, client, server);
+		var mixinPlugin = extension.getMixinPlugin().getOrNull();
+		if (mixinPlugin != null) json.plugin = mixinPlugin;
+
+		Generator.writeFinalResult(project, project.getName() + ".mixins.json", json);
 	}
 }

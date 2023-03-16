@@ -46,7 +46,7 @@ abstract class BeeEntityMixin {
 				target.addStatusEffect(effect, bee);
 				target.addStatusEffect(new StatusEffectInstance(StatusEffects.INSTANT_DAMAGE, healthPoints), bee);
 			}
-			case 8, 9 -> target.damage(DamageSource.sting(bee), Float.MAX_VALUE); // Sorry.
+			case 8, 9 -> target.damage(target.getWorld().getDamageSources().sting(bee), Float.MAX_VALUE); // Sorry.
 		}
 		return false;
 	}

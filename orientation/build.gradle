@@ -1,7 +1,7 @@
 import dev.triphora.gradle.QuiltModJson
 import dev.triphora.gradle.Side
 
-version = '3.0.1'
+version = '3.0.2'
 
 emmod {
 	midnightlib = true

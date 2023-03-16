@@ -47,7 +47,7 @@ public class WakeUpTime implements ClientModInitializer, ClientTickEvents.End {
 		while (time > 24000) time = time - 24000;
 
 		if (time < 9000 && time >= 2000) {
-			return Text.translatable("wake_up_time.working", "§a" + (9000 - time) / 20);
+			return Text.translatable("wake_up_time.working", null, "§a" + (9000 - time) / 20);
 		}
 
 		MutableText status = Text.translatable("wake_up_time.wandering");
@@ -56,7 +56,7 @@ public class WakeUpTime implements ClientModInitializer, ClientTickEvents.End {
 
 		final long timeUntilWork = time > 9000 ? 26000 - time : 2000 - time;
 
-		return Text.translatable("wake_up_time.lazy_bums", "§a" + status.getString(), "§a" + timeUntilWork / 20);
+		return Text.translatable("wake_up_time.lazy_bums", null, "§a" + status.getString(), "§a" + timeUntilWork / 20);
 	}
 
 	public static class Config extends MidnightConfig {

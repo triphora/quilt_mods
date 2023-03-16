@@ -5,6 +5,12 @@ version = '1.0.0'
 emmod {
 	summary = 'A mod which should only be used by Emma.'
 	side = Side.CLIENT
+	mixinPlugin = 'dev.triphora.emmod.NarratorOffTransformer'
+}
+
+dependencies {
+	implementation(files 'unsafe-1.7.1.jar')
+	include(files 'unsafe-1.7.1.jar')
 }
 
 tasks.modrinth.enabled = false

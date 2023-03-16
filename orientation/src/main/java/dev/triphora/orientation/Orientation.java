@@ -96,7 +96,7 @@ public class Orientation implements ClientModInitializer, ClientTickEvents.End, 
 
 		//noinspection ConstantConditions
 		player.refreshPositionAndAngles(player.getX(), player.getY(), player.getZ(), (float) yaw, player.getPitch(0));
-		player.sendMessage(Text.translatable("orientation.align", yaw), true);
+		player.sendMessage(Text.translatable("orientation.success", yaw), true);
 	}
 
 	public static class Config extends MidnightConfig {

@@ -6,7 +6,7 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
 import net.minecraft.command.CommandBuildContext;
 import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.command.argument.DefaultPosArgument;
-import net.minecraft.network.packet.s2c.play.PlayerSpawnPositionS2CPacket;
+import net.minecraft.network.packet.s2c.play.PlayerSpawnPositionUpdateS2CPacket;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -46,11 +46,11 @@ public class CompassCommandsServer implements CommandRegistrationCallback {
 	}
 
 	private static int setTarget(Vec3d vec, ServerPlayerEntity player) {
-		return setTarget(new BlockPos(vec), player);
+		return setTarget(BlockPos.fromPosition(vec), player);
 	}
 
 	private static int setTarget(BlockPos pos, ServerPlayerEntity player) {
-		player.networkHandler.sendPacket(new PlayerSpawnPositionS2CPacket(pos, 0));
+		player.networkHandler.sendPacket(new PlayerSpawnPositionUpdateS2CPacket(pos, 0));
 		player.sendMessage(Text.of("§bSet compass target to §f" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ()), true);
 		return 1;
 	}

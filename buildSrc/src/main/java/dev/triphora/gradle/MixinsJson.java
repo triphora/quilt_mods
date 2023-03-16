@@ -11,6 +11,7 @@ import java.util.Map;
 class MixinsJson {
 	boolean required = true;
 	String minVersion = "0.8";
+	String plugin;
 	@Nonnull @SerializedName("package") String mixinPackage;
 	String compatibilityLevel = "JAVA_17";
 	@Nonnull List<String> mixins;

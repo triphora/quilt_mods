@@ -49,7 +49,7 @@ public class CompassCommandsClient implements ClientCommandRegistrationCallback 
 	}
 
 	private static int setTarget(Vec3d vec) {
-		return setTarget(new BlockPos(vec));
+		return setTarget(BlockPos.fromPosition(vec));
 	}
 
 	private static int setTarget(BlockPos pos) {
