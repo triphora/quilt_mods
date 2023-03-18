@@ -49,12 +49,6 @@ subprojects {
 		}
 	}
 
-	tasks.named('remapJar') {
-		dependsOn {
-			tasks.named('optimizeOutputsOfJar')
-		}
-	}
-
 	java.withSourcesJar()
 
 	dependencies {
@@ -147,4 +141,5 @@ subprojects {
 	}
 
 	tasks.modrinth.dependsOn tasks.modrinthSyncBody
+	tasks.modrinth.dependsOn { tasks.named('optimizeOutputsOfRemapJar') }
 }
