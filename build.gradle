@@ -12,6 +12,7 @@ plugins {
 
 subprojects {
 	apply plugin: 'java'
+	//apply plugin: 'maven-publish'
 	apply plugin: 'org.quiltmc.loom'
 	apply plugin: 'com.modrinth.minotaur'
 	apply plugin: 'io.github.p03w.machete'
@@ -104,6 +105,18 @@ subprojects {
 
 	jar.from project.file('LICENSE').exists() ? project.file('LICENSE') : rootProject.file('LICENSE')
 
+	def projectBody = project.file('README.md').text
+	def devinsBadges = 'https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy'
+
+	if (emmod.qsl || emmod.midnightlib) {
+		projectBody += "\n[![Requires Quilt Standard Libraries]($devinsBadges/requires/quilt-standard-libraries_64h.png)]" +
+			'(https://modrinth.com/mod/qsl)'
+	}
+
+	projectBody += "\n---\n[![Support us through GitHub Sponsors]($devinsBadges/donate/ghsponsors-plural_64h.png)]" +
+		"($Constants.DONATE_LINK)\\\n[![Chat with us on Discord]($devinsBadges/social/discord-plural_64h.png)]" +
+		"($Constants.DISCORD_LINK)"
+
 	modrinth {
 		projectId = emmod.modrinthSlug.orElse project.name
 		gameVersions = [libs.versions.minecraft.get()]
@@ -112,9 +125,7 @@ subprojects {
 		versionType = System.getenv().VERSION_TYPE ?: DEFAULT_VERSION_TYPE
 		uploadFile = remapJar
 		additionalFiles = [sourcesJar]
-		syncBodyFrom = project.file('README.md').text + '\n' +
-			(emmod.qsl || emmod.midnightlib ? rootProject.file('QSL.md').text : '') +
-			'\n' + rootProject.file('COMMON.md').text
+		syncBodyFrom = projectBody
 	}
 
 	tasks.modrinth.doFirst {
@@ -142,4 +153,21 @@ subprojects {
 
 	tasks.modrinth.dependsOn tasks.modrinthSyncBody
 	tasks.modrinth.dependsOn { tasks.named('optimizeOutputsOfRemapJar') }
+
+	//publishing {
+	//	publications {
+	//		mavenJava(MavenPublication) {
+	//			from components.java
+	//		}
+	//	}
+	//	repositories {
+	//		maven {
+	//			url = 's3://maven'
+	//			credentials(AwsCredentials) {
+	//				accessKey = findProperty('dev.triphora.maven.access')
+	//				secretKey = findProperty('dev.triphora.maven.secret')
+	//			}
+	//		}
+	//	}
+	//}
 }
